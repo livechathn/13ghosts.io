@@ -1,0 +1,999 @@
+/* =========================================================
+   GRIMOIRE.CSS — 13Ghosts.io Design System
+   Leather. Blood. Terminal. No frameworks.
+   ========================================================= */
+
+/* ─── Custom Properties ─── */
+:root {
+    --leather-dark: #1A1210;
+    --leather-mid:  #2A1F1A;
+    --leather-warm: #3D2B22;
+    --blood-red:    #8B1A1A;
+    --blood-glow:   #C41E1E;
+    --chalk-white:  #E8E0D4;
+    --chalk-dim:    #A89B8C;
+    --bone:         #D4C5A9;
+    --ink-black:    #0D0A08;
+    --ember:        #D4760A;
+    --ash:          #4A3F38;
+    --wax-red:      #6B0F0F;
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ─── Base ─── */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'IBM Plex Mono', 'Fira Code', 'Source Code Pro', monospace;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--chalk-white);
+    background-color: var(--leather-dark);
+    /* Leather: radial glow center + CSS grain overlay */
+    background-image:
+        radial-gradient(ellipse at 50% 25%, var(--leather-mid) 0%, var(--leather-dark) 68%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='0.07'/%3E%3C/svg%3E");
+    background-size: cover, 200px 200px;
+    background-attachment: fixed, fixed;
+    min-height: 100vh;
+}
+
+/* ─── Page Reveal Animation ─── */
+@keyframes pageReveal {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.page-content {
+    animation: pageReveal 0.6s ease forwards;
+}
+
+/* ─── Typography ─── */
+h1, h2, .occult, .section-title {
+    font-family: 'IM Fell English SC', 'Cinzel Decorative', serif;
+    color: var(--bone);
+    letter-spacing: 0.08em;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 1.75rem; }
+
+h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--chalk-white);
+    letter-spacing: 0.05em;
+}
+
+p { color: var(--chalk-white); }
+
+small, .label-small {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: var(--chalk-dim);
+    letter-spacing: 0.1em;
+}
+
+a {
+    color: var(--chalk-dim);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+a::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--blood-red);
+    transition: width 0.3s ease;
+}
+
+a:hover { color: var(--bone); }
+a:hover::after { width: 100%; }
+
+/* ─── Navigation ─── */
+.nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(26, 18, 16, 0.96);
+    border-bottom: 1px dashed var(--ash);
+    backdrop-filter: blur(8px);
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+}
+
+.nav-brand::after { display: none; }
+
+.nav-brand img,
+.nav-brand svg {
+    width: 34px;
+    height: 34px;
+}
+
+.nav-brand-name {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1.05rem;
+    color: var(--bone);
+    letter-spacing: 0.12em;
+}
+
+.nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+}
+
+.nav-links a {
+    font-size: 0.72rem;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--chalk-dim);
+}
+
+.nav-links a:hover { color: var(--bone); }
+
+.nav-links a.active {
+    color: var(--blood-red);
+}
+
+.nav-links a.active::after {
+    width: 100%;
+    background: var(--blood-red);
+}
+
+.nav-cta {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--chalk-white) !important;
+    background: var(--blood-red);
+    border: 1px solid var(--blood-glow);
+    padding: 9px 22px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.nav-cta::after { display: none; }
+
+.nav-cta:hover {
+    background: var(--blood-glow);
+    color: var(--chalk-white) !important;
+    box-shadow: 0 0 20px rgba(196, 30, 30, 0.3);
+}
+
+/* ─── Page Panel / Card ─── */
+.page-panel {
+    background: var(--leather-mid);
+    border: 1px solid var(--ash);
+    border-radius: 2px;
+    box-shadow:
+        inset 0 0 30px rgba(0, 0, 0, 0.3),
+        0 4px 12px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.page-panel.stitched {
+    border: 2px dashed var(--ash);
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Blood line at top of cards on hover */
+.page-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--wax-red), var(--blood-red));
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1;
+}
+
+.page-panel:hover::before { opacity: 1; }
+
+/* ─── Burnt Edge Divider ─── */
+/* Use SVG asset for authentic irregular charred edge */
+.burnt-edge {
+    width: 100%;
+    height: 60px;
+    display: block;
+    pointer-events: none;
+    line-height: 0;
+}
+
+.burnt-edge img,
+.burnt-edge-top img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.burnt-edge-top {
+    width: 100%;
+    height: 60px;
+    display: block;
+    pointer-events: none;
+    line-height: 0;
+}
+
+/* Torn page edge for section transitions */
+.torn-edge {
+    width: 100%;
+    height: 40px;
+    display: block;
+    pointer-events: none;
+    line-height: 0;
+    margin-bottom: -1px;
+}
+
+/* ─── Section ─── */
+.section {
+    padding: 80px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.section-eyebrow {
+    font-size: 0.68rem;
+    font-weight: 300;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--blood-red);
+    margin-bottom: 12px;
+    display: block;
+}
+
+/* ─── Service Cards Grid ─── */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+}
+
+.service-card {
+    padding: 36px 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-2px);
+    background: var(--leather-warm);
+    box-shadow:
+        inset 0 0 40px rgba(0, 0, 0, 0.4),
+        0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.service-ritual {
+    font-size: 0.6rem;
+    font-weight: 300;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--blood-red);
+    margin-bottom: 6px;
+    display: block;
+}
+
+.service-title {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1.1rem;
+    color: var(--bone);
+    margin-bottom: 14px;
+    letter-spacing: 0.06em;
+}
+
+.service-body {
+    font-size: 0.8rem;
+    color: var(--chalk-dim);
+    line-height: 1.85;
+}
+
+/* ─── Wax Seal ─── */
+.wax-seal {
+    width: 64px;
+    height: 64px;
+    background: radial-gradient(circle at 40% 35%, var(--blood-red), var(--wax-red));
+    border-radius: 50%;
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.6),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: box-shadow 0.3s;
+}
+
+.wax-seal:hover {
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.6),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(139, 26, 26, 0.4);
+}
+
+.wax-seal-text {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.58rem;
+    color: var(--chalk-white);
+    text-align: center;
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+    pointer-events: none;
+}
+
+.wax-seal.seal-secure {
+    background: radial-gradient(circle at 40% 35%, #4a7c59, #2d5040);
+}
+
+.wax-seal.seal-warn {
+    background: radial-gradient(circle at 40% 35%, var(--ember), #6b3800);
+}
+
+.wax-seal.seal-critical {
+    background: radial-gradient(circle at 40% 35%, var(--blood-glow), var(--blood-red));
+    animation: sealPulse 2s ease-in-out infinite;
+}
+
+@keyframes sealPulse {
+    0%, 100% {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.6), inset 0 -2px 4px rgba(0,0,0,0.4);
+    }
+    50% {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.6), inset 0 -2px 4px rgba(0,0,0,0.4),
+                    0 0 30px rgba(196, 30, 30, 0.5);
+    }
+}
+
+/* ─── Buttons ─── */
+.btn-primary {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    color: var(--chalk-white);
+    background: var(--blood-red);
+    border: 1px solid var(--blood-glow);
+    padding: 13px 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.btn-primary::after { display: none; }
+
+.btn-primary:hover {
+    background: var(--blood-glow);
+    color: var(--chalk-white);
+    box-shadow: 0 0 20px rgba(196, 30, 30, 0.35);
+    transform: scale(1.02);
+}
+
+.btn-primary:active { transform: scale(0.99); }
+
+.btn-secondary {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: var(--chalk-white);
+    background: transparent;
+    border: 1px solid var(--ash);
+    padding: 11px 26px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.btn-secondary::after { display: none; }
+
+.btn-secondary:hover {
+    border-color: var(--bone);
+    color: var(--bone);
+}
+
+/* ─── Form Inputs ─── */
+.form-field {
+    margin-bottom: 28px;
+}
+
+label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--chalk-dim);
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.875rem;
+    color: var(--chalk-white);
+    background: var(--leather-dark);
+    border: 1px solid var(--ash);
+    padding: 11px 14px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    -webkit-appearance: none;
+}
+
+input:focus, textarea:focus {
+    border-color: var(--blood-red);
+    box-shadow: 0 0 8px rgba(139, 26, 26, 0.3);
+}
+
+input::placeholder, textarea::placeholder {
+    color: var(--ash);
+    opacity: 0.7;
+}
+
+/* ─── Terminal Cursor ─── */
+.terminal-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1.1em;
+    background: var(--blood-red);
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+/* ─── Terminal Block ─── */
+.terminal-block {
+    background: var(--ink-black);
+    border: 1px solid var(--ash);
+    padding: 24px 28px;
+    font-size: 0.8125rem;
+    line-height: 2;
+    color: var(--chalk-white);
+    font-family: 'IBM Plex Mono', monospace;
+    position: relative;
+    overflow: hidden;
+}
+
+.term-prompt { color: var(--blood-red); font-weight: 500; }
+.term-path   { color: var(--chalk-dim); }
+.term-cmd    { color: var(--chalk-white); }
+.term-out    { color: var(--chalk-dim); }
+.term-ok     { color: #4a9e6a; }
+.term-err    { color: var(--blood-glow); }
+
+/* ─── Status Strip ─── */
+.status-strip {
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    border: 1px solid var(--ash);
+    background: var(--leather-mid);
+    flex: 1;
+    min-width: 180px;
+}
+
+.status-text-block { flex: 1; }
+
+.status-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--chalk-dim);
+    display: block;
+    margin-bottom: 2px;
+}
+
+.status-value {
+    font-size: 0.85rem;
+    color: var(--bone);
+    display: block;
+}
+
+/* ─── Data Table ─── */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    font-family: 'IM Fell English SC', serif;
+    color: var(--bone);
+    border-bottom: 1px solid var(--ash);
+    text-align: left;
+    padding: 12px 16px;
+    letter-spacing: 0.05em;
+    font-weight: 400;
+    font-size: 0.75rem;
+}
+
+.data-table td {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--chalk-white);
+    border-bottom: 1px solid rgba(74, 63, 56, 0.4);
+    padding: 10px 16px;
+    font-size: 0.8125rem;
+}
+
+.data-table tr:hover td {
+    background: var(--leather-warm);
+}
+
+/* ─── Incident Timeline ─── */
+.timeline {
+    position: relative;
+    padding-left: 32px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px; top: 0; bottom: 0;
+    width: 1px;
+    background: var(--ash);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -28px; top: 5px;
+    width: 8px; height: 8px;
+    background: var(--blood-red);
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(139, 26, 26, 0.5);
+}
+
+.timeline-date {
+    font-size: 0.67rem;
+    letter-spacing: 0.2em;
+    color: var(--chalk-dim);
+    margin-bottom: 4px;
+    display: block;
+}
+
+.timeline-title {
+    font-size: 0.85rem;
+    color: var(--bone);
+    margin-bottom: 4px;
+    font-weight: 500;
+    display: block;
+}
+
+.timeline-body {
+    font-size: 0.75rem;
+    color: var(--chalk-dim);
+    line-height: 1.7;
+}
+
+/* ─── Checklist ─── */
+.check-list { list-style: none; }
+
+.check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(74, 63, 56, 0.4);
+}
+
+.check-seal {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+
+.check-seal.done {
+    background: radial-gradient(circle at 40% 35%, var(--blood-red), var(--wax-red));
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.check-seal.pending {
+    border: 1px solid var(--ash);
+    background: transparent;
+}
+
+.check-seal.pending:hover {
+    border-color: var(--blood-red);
+    box-shadow: 0 0 6px rgba(139, 26, 26, 0.3);
+}
+
+.check-text { font-size: 0.8rem; color: var(--chalk-dim); flex: 1; }
+.check-text.done { color: var(--ash); text-decoration: line-through; }
+
+/* ─── App Layout (Dashboard) ─── */
+.app-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 100vh;
+}
+
+.sidebar {
+    background: var(--ink-black);
+    border-right: 1px dashed var(--ash);
+    padding: 28px 0;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 220px;
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-brand {
+    padding: 0 24px 24px;
+    border-bottom: 1px dashed var(--ash);
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.sidebar-brand::after { display: none; }
+
+.sidebar-brand svg,
+.sidebar-brand img {
+    width: 52px; height: 52px;
+}
+
+.sidebar-brand-name {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.85rem;
+    color: var(--bone);
+    letter-spacing: 0.14em;
+}
+
+.sidebar-nav { list-style: none; flex: 1; }
+
+.sidebar-nav li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 24px;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--chalk-dim);
+    transition: all 0.2s;
+    border-left: 2px solid transparent;
+}
+
+.sidebar-nav li a::after { display: none; }
+
+.sidebar-nav li a:hover {
+    color: var(--bone);
+    background: rgba(74, 63, 56, 0.2);
+    border-left-color: var(--ash);
+}
+
+.sidebar-nav li a.active {
+    color: var(--blood-red);
+    border-left-color: var(--blood-red);
+    background: rgba(139, 26, 26, 0.08);
+}
+
+.sidebar-footer {
+    padding: 20px 24px 0;
+    border-top: 1px dashed var(--ash);
+    margin-top: auto;
+    font-size: 0.62rem;
+    color: var(--ash);
+    letter-spacing: 0.1em;
+}
+
+.main-content {
+    margin-left: 220px;
+    padding: 40px;
+    min-height: 100vh;
+}
+
+.main-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed var(--ash);
+}
+
+.content-section {
+    margin-bottom: 48px;
+}
+
+.content-section-title {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1rem;
+    color: var(--bone);
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--ash);
+}
+
+/* ─── Section intro text ─── */
+.section-intro {
+    color: var(--chalk-dim);
+    font-size: 0.85rem;
+    max-width: 560px;
+    line-height: 1.9;
+    margin-top: 16px;
+}
+
+/* ─── Hero ─── */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 48px 80px;
+    position: relative;
+}
+
+.hero-sigil {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+.hero-title {
+    font-family: 'IM Fell English SC', serif;
+    font-size: clamp(2.2rem, 7vw, 4.5rem);
+    color: var(--bone);
+    letter-spacing: 0.12em;
+    margin-bottom: 16px;
+    line-height: 1;
+}
+
+.hero-tagline {
+    font-size: 0.875rem;
+    font-weight: 300;
+    color: var(--chalk-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    min-height: 1.6em;
+    margin-bottom: 32px;
+}
+
+.hero-terminal {
+    font-size: 0.8125rem;
+    color: var(--chalk-dim);
+    margin-bottom: 48px;
+    min-height: 1.6em;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* ─── Site Footer ─── */
+.site-footer {
+    padding: 36px 48px;
+    border-top: 1px dashed var(--ash);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    background: rgba(13, 10, 8, 0.4);
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.footer-brand::after { display: none; }
+
+.footer-brand svg,
+.footer-brand img {
+    width: 26px; height: 26px;
+    opacity: 0.5;
+}
+
+.footer-brand-name {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 0.85rem;
+    color: var(--chalk-dim);
+}
+
+.footer-text {
+    font-size: 0.65rem;
+    color: var(--ash);
+    letter-spacing: 0.05em;
+}
+
+.footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+.footer-links a {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--ash);
+    text-transform: uppercase;
+}
+
+.footer-links a:hover { color: var(--bone); }
+
+/* ─── Auth Error Shake ─── */
+@keyframes screenShake {
+    0%, 100% { transform: translate(0, 0); }
+    20%       { transform: translate(-4px,  2px); }
+    40%       { transform: translate( 4px, -2px); }
+    60%       { transform: translate(-3px,  1px); }
+    80%       { transform: translate( 3px, -1px); }
+}
+
+.shake { animation: screenShake 0.4s ease; }
+
+/* ─── Login Page specific ─── */
+.login-wrap {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px 40px;
+}
+
+.login-panel {
+    width: 100%;
+    max-width: 440px;
+    padding: 52px 48px;
+    position: relative;
+}
+
+.login-sigil {
+    width: 80px;
+    height: 80px;
+    display: block;
+    margin: 0 auto 28px;
+    opacity: 0.85;
+}
+
+.login-title {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1.5rem;
+    color: var(--bone);
+    text-align: center;
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+}
+
+.login-sub {
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--chalk-dim);
+    text-align: center;
+    margin-bottom: 36px;
+    display: block;
+}
+
+.login-status {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 28px;
+    padding: 9px 14px;
+    border: 1px solid var(--ash);
+    background: rgba(13, 10, 8, 0.4);
+    color: var(--chalk-dim);
+    transition: all 0.3s;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.login-footer-note {
+    margin-top: 28px;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: var(--ash);
+    text-align: center;
+    line-height: 2;
+}
+
+.login-hint {
+    margin-top: 16px;
+    font-size: 0.65rem;
+    text-align: center;
+    color: var(--ash);
+}
+
+.login-hint a {
+    color: var(--chalk-dim);
+    opacity: 0.6;
+}
+
+.login-hint a:hover { opacity: 1; }
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+    .app-layout { grid-template-columns: 1fr; }
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 16px;
+    }
+    .sidebar-brand { flex-direction: row; padding: 0 16px 16px; border-bottom: none; }
+    .main-content { margin-left: 0; }
+}
+
+@media (max-width: 768px) {
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.3rem; }
+    .nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .section { padding: 50px 24px; }
+    .site-footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+    .hero { padding: 100px 24px 60px; }
+    .hero-sigil { width: 90px; height: 90px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .status-strip { flex-direction: column; }
+    .login-panel { padding: 40px 28px; }
+    .main-content { padding: 28px 20px; }
+    .status-item { width: 100%; }
+}

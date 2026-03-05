@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://sar1a.lempyra.com; font-src 'self' https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self' data: blob:;">
+    <title>13Ghosts — Client Portal</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/grimoire.css">
+</head>
+<body>
+
+    <!-- Back link -->
+    <a href="../"
+       style="position:fixed; top:24px; left:32px; z-index:200;
+              font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase;
+              color:var(--chalk-dim); opacity:0.5; transition:opacity 0.3s;"
+       onmouseover="this.style.opacity='1'"
+       onmouseout="this.style.opacity='0.5'">← Return</a>
+
+    <div class="login-wrap page-content">
+
+        <div class="page-panel login-panel" id="login-panel">
+
+            <!-- Sigil -->
+            <img src="../assets/img/sigil-mark.svg" alt="13Ghosts Sigil" class="login-sigil">
+
+            <h1 class="login-title">Client Portal</h1>
+            <span class="login-sub">Unseal your case file</span>
+
+            <!-- Auth status -->
+            <div class="login-status" id="login-status">⟳ reaching auth gateway…</div>
+
+            <!-- Login form -->
+            <form onsubmit="handleLogin(event)">
+                <div class="form-field">
+                    <label for="username">Designation</label>
+                    <input type="text" id="username"
+                           placeholder="your identifier"
+                           autocomplete="username"
+                           required>
+                </div>
+                <div class="form-field">
+                    <label for="password">Passphrase</label>
+                    <input type="password" id="password"
+                           placeholder="••••••••••••••"
+                           autocomplete="current-password"
+                           required>
+                </div>
+                <button type="submit" id="submit-btn" class="btn-primary"
+                        style="width:100%; margin-top:8px; text-align:center;">
+                    Unseal
+                </button>
+            </form>
+
+            <!-- Terminal prompt typed below form -->
+            <div class="login-footer-note">
+                <span id="portal-terminal"></span>
+            </div>
+
+            <div class="login-hint">
+                <a href="mailto:lab@13ghosts.io">Request access →</a>
+            </div>
+
+            <div class="login-footer-note" style="margin-top:20px;">
+                Summoning sar1a · ClearingHouse · TLS 1.3<br>
+                Unauthorized access attempts shall be logged and haunted.
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../assets/js/terminal.js"></script>
+    <script src="../assets/js/portal.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            checkGateway();
+            // Type terminal hint below form
+            setTimeout(function () {
+                var el = document.getElementById('portal-terminal');
+                typeText(el, '[13G] ~ $ authenticate --client', 52);
+            }, 1000);
+        });
+    </script>
+
+</body>
+</html>

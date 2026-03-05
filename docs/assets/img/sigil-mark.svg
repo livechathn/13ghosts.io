@@ -1,0 +1,53 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" role="img" aria-label="13Ghosts Sigil">
+
+  <!-- Guide cross lines -->
+  <line x1="100" y1="7" x2="100" y2="193" stroke="#4A3F38" stroke-width="0.4"/>
+  <line x1="7" y1="100" x2="193" y2="100" stroke="#4A3F38" stroke-width="0.4"/>
+
+  <!-- Outer circle -->
+  <circle cx="100" cy="100" r="92" stroke="#D4C5A9" stroke-width="1.5"/>
+
+  <!-- 13 tick marks at 360/13° intervals, starting from top (-90°) -->
+  <line x1="100" y1="8"   x2="100" y2="14"  stroke="#D4C5A9" stroke-width="1.2"/>
+  <line x1="142.7" y1="18.5" x2="139.9" y2="23.8" stroke="#D4C5A9" stroke-width="1.2"/>
+  <line x1="175.7" y1="47.7" x2="170.8" y2="51.1" stroke="#D4C5A9" stroke-width="1.2"/>
+  <line x1="191.3" y1="88.9" x2="185.4" y2="89.6" stroke="#D4C5A9" stroke-width="1.2"/>
+  <line x1="186.0" y1="132.6" x2="180.4" y2="130.5" stroke="#D4C5A9" stroke-width="1.2"/>
+  <line x1="161.0" y1="168.9" x2="157.0" y2="164.4" stroke="#D4C5A9" stroke-width="1.2"/>
+  <line x1="122.0" y1="189.3" x2="120.6" y2="183.5" stroke="#D4C5A9" stroke-width="1.2"/>
+  <line x1="78.0"  y1="189.3" x2="79.4"  y2="183.5" stroke="#D4C5A9" stroke-width="1.2"/>
+  <line x1="39.0"  y1="168.9" x2="43.0"  y2="164.4" stroke="#D4C5A9" stroke-width="1.2"/>
+  <line x1="14.0"  y1="132.6" x2="19.6"  y2="130.5" stroke="#D4C5A9" stroke-width="1.2"/>
+  <line x1="8.7"   y1="88.9"  x2="14.6"  y2="89.6"  stroke="#D4C5A9" stroke-width="1.2"/>
+  <line x1="24.3"  y1="47.7"  x2="29.2"  y2="51.1"  stroke="#D4C5A9" stroke-width="1.2"/>
+  <line x1="57.3"  y1="18.5"  x2="60.1"  y2="23.8"  stroke="#D4C5A9" stroke-width="1.2"/>
+
+  <!-- Mid ring (dashed) -->
+  <circle cx="100" cy="100" r="72" stroke="#4A3F38" stroke-width="0.6" stroke-dasharray="3 5"/>
+
+  <!-- Hexagram — up-pointing triangle (r=62) -->
+  <polygon points="100,38 153.7,131 46.3,131" stroke="#D4C5A9" stroke-width="0.9"/>
+
+  <!-- Hexagram — down-pointing triangle (r=62) -->
+  <polygon points="100,162 153.7,69 46.3,69" stroke="#D4C5A9" stroke-width="0.9"/>
+
+  <!-- Inner containment circle -->
+  <circle cx="100" cy="100" r="30" stroke="#8B1A1A" stroke-width="1"/>
+
+  <!-- XIII — uses web-safe Georgia so it renders in <img> context -->
+  <text x="100" y="97"
+        text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="18"
+        fill="#D4C5A9"
+        letter-spacing="2">XIII</text>
+
+  <!-- GHOSTS -->
+  <text x="100" y="113"
+        text-anchor="middle"
+        font-family="'Courier New', Courier, monospace"
+        font-size="5.5"
+        fill="#8B1A1A"
+        letter-spacing="5">GHOSTS</text>
+
+</svg>

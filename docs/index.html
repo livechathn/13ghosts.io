@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="13Ghosts.io — Malware & Demonology Analysis Lab. Cybersecurity forensics, treated as exorcism.">
+    <title>13Ghosts.io — Malware &amp; Demonology Analysis Lab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/grimoire.css">
+
+    <style>
+        /* ─ Landing-page only styles ─ */
+        .services-section {
+            background: var(--ink-black);
+            padding: 1px 0 80px;
+        }
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1px;
+            background: var(--ash);
+            border: 1px solid var(--ash);
+            margin-top: 48px;
+        }
+        .method-cell {
+            background: var(--leather-dark);
+            padding: 32px 28px;
+            transition: background 0.3s;
+        }
+        .method-cell:hover { background: var(--leather-mid); }
+        .method-num {
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            color: var(--blood-red);
+            display: block;
+            margin-bottom: 10px;
+        }
+        .method-name {
+            font-family: 'IM Fell English SC', serif;
+            font-size: 1rem;
+            color: var(--bone);
+            display: block;
+            margin-bottom: 10px;
+        }
+        .method-desc {
+            font-size: 0.78rem;
+            color: var(--chalk-dim);
+            line-height: 1.85;
+        }
+        .about-section {
+            background: var(--ink-black);
+            padding: 80px 48px;
+        }
+        .about-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        .about-copy {
+            font-size: 0.82rem;
+            color: var(--chalk-dim);
+            line-height: 2;
+            margin-bottom: 20px;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 48px;
+            align-items: start;
+        }
+        .contact-copy {
+            font-size: 0.82rem;
+            color: var(--chalk-dim);
+            line-height: 2;
+            margin-bottom: 24px;
+        }
+        .contact-form {
+            padding: 40px 36px;
+        }
+        .contact-status {
+            margin-top: 14px;
+            font-size: 0.7rem;
+            color: var(--chalk-dim);
+            min-height: 1.2em;
+        }
+        .form-field-last { margin-bottom: 0; }
+        textarea { resize: vertical; }
+        @media (max-width: 768px) {
+            .about-grid,
+            .contact-grid { grid-template-columns: 1fr; }
+            .about-section { padding: 60px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="./" class="nav-brand">
+            <img src="assets/img/sigil-mark.svg" alt="13Ghosts Sigil" width="34" height="34">
+            <span class="nav-brand-name">13Ghosts</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#services" class="active">Services</a></li>
+            <li><a href="#methodology">Methodology</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="portal/" class="nav-cta">Client Portal</a>
+    </nav>
+
+    <!-- ── HERO ── -->
+    <section class="hero page-content">
+        <img src="assets/img/sigil-mark.svg" alt="13Ghosts Sigil" class="hero-sigil">
+        <h1 class="hero-title">13Ghosts</h1>
+        <p class="hero-tagline"
+           data-typetext="Malware &amp; Demonology Analysis Lab"
+           data-typespeed="55"
+           data-typedelay="500"></p>
+        <p class="hero-terminal" id="hero-terminal"></p>
+        <div class="hero-cta">
+            <a href="#contact" class="btn-primary">Request Exorcism</a>
+            <a href="#services" class="btn-secondary">View Services</a>
+        </div>
+    </section>
+
+    <!-- Burnt edge into dark services section -->
+    <div class="burnt-edge">
+        <img src="assets/textures/burnt-edge.svg" alt="" width="1440" height="60">
+    </div>
+
+    <!-- ── SERVICES ── -->
+    <div class="services-section" id="services">
+        <div class="section">
+            <span class="section-eyebrow">// Ritual Classification</span>
+            <h2 class="section-title">The Four Rites</h2>
+            <p class="section-intro">Every infection is a possession. Every remediation is a ritual.
+            We operate at the intersection of forensic science and systematic banishment —
+            because understanding how a demon works is the first step to casting it out.</p>
+
+            <div class="cards-grid">
+                <div class="page-panel service-card">
+                    <span class="service-ritual">Rite I — Séance</span>
+                    <h3 class="service-title">Digital Forensics</h3>
+                    <p class="service-body">We commune with your compromised systems. Dead drives speak.
+                    Volatile memory holds confessions. We trace the infection back to its origin,
+                    reconstruct the moment of possession, and document every action
+                    the invader took inside your infrastructure.</p>
+                </div>
+
+                <div class="page-panel service-card">
+                    <span class="service-ritual">Rite II — Demonology</span>
+                    <h3 class="service-title">Malware Analysis</h3>
+                    <p class="service-body">We dissect, classify, and catalog every specimen in an airgapped
+                    containment circle. Static analysis. Dynamic analysis. Behavioral mapping.
+                    Every ghost gets a name, a taxonomy, and a dossier.
+                    The Ars Goetia meets MITRE ATT&amp;CK.</p>
+                </div>
+
+                <div class="page-panel service-card">
+                    <span class="service-ritual">Rite III — Exorcism</span>
+                    <h3 class="service-title">Incident Response</h3>
+                    <p class="service-body">Immediate containment. Systematic banishment. Full restoration
+                    of possessed infrastructure. We don't just patch the entry point —
+                    we verify the entity is gone, seal the breach, and ensure
+                    it cannot return through the same door.</p>
+                </div>
+
+                <div class="page-panel service-card">
+                    <span class="service-ritual">Rite IV — Warding</span>
+                    <h3 class="service-title">Security Consultation</h3>
+                    <p class="service-body">Proactive architecture review. Threat modeling. Protective sigils
+                    for your perimeter. We study your defenses for the same
+                    vulnerabilities that demons look for — before they arrive at your door
+                    with an invitation you didn't know you sent.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Torn edge back to leather -->
+    <div class="torn-edge">
+        <img src="assets/textures/torn-edge.svg" alt="" width="1440" height="40">
+    </div>
+
+    <!-- ── METHODOLOGY ── -->
+    <div class="section" id="methodology">
+        <span class="section-eyebrow">// Protocol</span>
+        <h2 class="section-title">How We Work</h2>
+        <div class="method-grid">
+            <div class="method-cell">
+                <span class="method-num">STEP 01</span>
+                <span class="method-name">Invocation</span>
+                <p class="method-desc">You contact us. We assess scope. Initial triage to determine the nature and severity of the possession.</p>
+            </div>
+            <div class="method-cell">
+                <span class="method-num">STEP 02</span>
+                <span class="method-name">Isolation</span>
+                <p class="method-desc">Affected systems enter the containment circle. Nothing moves in or out until the séance is complete.</p>
+            </div>
+            <div class="method-cell">
+                <span class="method-num">STEP 03</span>
+                <span class="method-name">Analysis</span>
+                <p class="method-desc">Every artifact examined. Every thread pulled. The specimen is classified, documented, and cross-referenced against known entity families.</p>
+            </div>
+            <div class="method-cell">
+                <span class="method-num">STEP 04</span>
+                <span class="method-name">Banishment</span>
+                <p class="method-desc">The entity is removed. Every persistence mechanism severed. Every backdoor sealed. The exorcism is complete when we can prove it.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Burnt edge into dark about section -->
+    <div class="burnt-edge">
+        <img src="assets/textures/burnt-edge.svg" alt="" width="1440" height="60">
+    </div>
+
+    <!-- ── ABOUT ── -->
+    <div class="about-section">
+        <span class="section-eyebrow">// The Grimoire</span>
+        <h2 class="section-title" style="max-width:900px; margin: 0 auto 32px;">About the Lab</h2>
+        <div class="about-grid">
+            <div>
+                <p class="about-copy">We built this lab because we got tired of treating infections like IT problems.
+                They aren't. A persistent APT on your network isn't a misconfiguration —
+                it's an entity with intent, with patience, with specific objectives.
+                You don't fix that with a patch. You understand it. Then you cast it out.</p>
+                <p class="about-copy">13Ghosts operates an airgapped analysis environment with dedicated
+                specimen containment, behavioral sandboxing, and cross-reference
+                infrastructure connecting classical demonological taxonomy
+                with modern threat intelligence frameworks.
+                Every specimen we encounter gets a ghost number. Every ghost gets a name.</p>
+            </div>
+            <div class="terminal-block" id="lab-terminal">
+                <div><span class="term-prompt">[13G] ~ $</span> <span class="term-cmd">status --verbose</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Torn edge back to leather -->
+    <div class="torn-edge">
+        <img src="assets/textures/torn-edge.svg" alt="" width="1440" height="40">
+    </div>
+
+    <!-- ── CONTACT ── -->
+    <div class="section" id="contact">
+        <span class="section-eyebrow">// Begin the Ritual</span>
+        <h2 class="section-title">Summon Us</h2>
+        <div class="contact-grid">
+            <div>
+                <p class="contact-copy">If you suspect a compromise, don't wait. Every hour the entity
+                is inside your infrastructure, it learns more about you. Contact us immediately
+                and we will begin triage within the hour.</p>
+                <p class="contact-copy">Existing clients access their case files through the
+                <a href="portal/">Client Portal</a>.</p>
+            </div>
+            <div class="page-panel stitched contact-form">
+                <form onsubmit="handleContact(event)">
+                    <div class="form-field">
+                        <label for="contact-name">Designation</label>
+                        <input type="text" id="contact-name" placeholder="your name or organization" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="contact-email">Contact Channel</label>
+                        <input type="email" id="contact-email" placeholder="encrypted email preferred" required>
+                    </div>
+                    <div class="form-field form-field-last">
+                        <label for="contact-msg">Nature of the Possession</label>
+                        <textarea id="contact-msg" rows="4" placeholder="describe what you've observed…" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="margin-top:24px; width:100%;">Summon the Lab</button>
+                </form>
+                <p id="contact-status" class="contact-status"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── FOOTER ── -->
+    <footer class="site-footer">
+        <a href="./" class="footer-brand">
+            <img src="assets/img/sigil-mark.svg" alt="13Ghosts" width="26" height="26">
+            <span class="footer-brand-name">13Ghosts.io</span>
+        </a>
+        <span class="footer-text">Part of the Lempyrλ Ecosystem &nbsp;·&nbsp; All specimens contained</span>
+        <div class="footer-links">
+            <a href="https://lempyra.com">Lempyrλ</a>
+            <a href="portal/">Lab Access</a>
+        </div>
+    </footer>
+
+    <script src="assets/js/terminal.js"></script>
+    <script>
+        // Hero terminal line (typed after tagline finishes)
+        document.addEventListener('DOMContentLoaded', function () {
+            var termEl = document.getElementById('hero-terminal');
+            setTimeout(function () {
+                typeText(termEl, '[13G] ~ $ init consultation --secure', 48);
+            }, 2600);
+
+            // Lab status terminal
+            var lab = document.getElementById('lab-terminal');
+            var rows = [
+                '',
+                'LAB SYSTEMS ............. \u25CF ONLINE',
+                'SPECIMEN VAULT .......... \u25CF SEALED',
+                'CONTAINMENT CIRCLE ...... \u25CF NOMINAL',
+                'ANALYSIS ENGINE ......... \u25CF RUNNING',
+                'AUTH GATEWAY ............ \u25CF CONNECTED',
+                '',
+                '13 ghost classes catalogued.',
+                'No active breaches detected.',
+            ];
+            setTimeout(function () {
+                rows.forEach(function (row, i) {
+                    setTimeout(function () {
+                        var el = document.createElement('div');
+                        el.className = 'term-out';
+                        el.textContent = row;
+                        lab.appendChild(el);
+                    }, 280 * i);
+                });
+            }, 1200);
+        });
+
+        // Contact form stub
+        function handleContact(e) {
+            e.preventDefault();
+            var status = document.getElementById('contact-status');
+            status.textContent = '\u29d7 transmitting to the lab\u2026';
+            setTimeout(function () {
+                status.textContent = '\u2713 received \u2014 we will contact you within 24 hours.';
+                e.target.reset();
+            }, 1200);
+        }
+    </script>
+
+</body>
+</html>
