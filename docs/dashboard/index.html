@@ -12,6 +12,21 @@
 
     <!-- Auth guard runs first, before any content renders -->
     <script src="../assets/js/auth-guard.js"></script>
+
+<style>
+  /* Fix grid + fixed-sidebar double-indent */
+  .app-layout { display: block; }
+  .main-content {
+      margin-left: 220px;
+      padding: 40px;
+      min-height: 100vh;
+      width: calc(100% - 220px);
+      box-sizing: border-box;
+  }
+  /* Pane switching */
+  .content-section { display: none; }
+  .content-section.active-pane { display: block; }
+</style>
 </head>
 <body>
 
@@ -51,7 +66,7 @@
                 </a>
             </li>
             <li>
-                <a href="../academy/" onclick="setActive(this)">
+                <a href="#academy" onclick="setActive(this)">
                     <span>◈</span> Academy
                 </a>
             </li>
@@ -259,12 +274,79 @@
             </div>
         </div>
 
+
+        <!-- Academy -->
+        <div class="content-section" id="academy">
+            <h2 class="content-section-title">Academy</h2>
+
+            <!-- Dark Code -->
+            <div class="page-panel" style="margin-bottom:16px; padding:24px 28px;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                    <span style="color:var(--blood-red);font-size:1rem;">◈</span>
+                    <span style="font-family:'IM Fell English SC',serif;font-size:0.95rem;color:var(--bone);">Dark Code</span>
+                    <span style="font-size:0.6rem;letter-spacing:0.3em;color:var(--ash);margin-left:auto;">SYSTEMS · EXPLOITATION · CRYPTOGRAPHY</span>
+                </div>
+                <p style="font-size:0.72rem;color:var(--chalk-dim);letter-spacing:0.05em;">No lessons published yet.</p>
+            </div>
+
+            <!-- Dark Math -->
+            <div class="page-panel" style="margin-bottom:16px; padding:24px 28px;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                    <span style="color:var(--ember);font-size:1rem;">∑</span>
+                    <span style="font-family:'IM Fell English SC',serif;font-size:0.95rem;color:var(--bone);">Dark Math</span>
+                    <span style="font-size:0.6rem;letter-spacing:0.3em;color:var(--ash);margin-left:auto;">NUMBER THEORY · LOGIC · ALGEBRA</span>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="timeline-date">S0 · E0</span>
+                        <a href="../academy/dark_math/S0/e0/" class="timeline-title" style="color:var(--ember);text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">¿Qué es un número? →</a>
+                        <p class="timeline-body">Introduction to the nature of numbers — foundations of mathematical thought.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dark Music -->
+            <div class="page-panel" style="padding:24px 28px;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                    <span style="color:var(--blood-glow);font-size:1rem;">♪</span>
+                    <span style="font-family:'IM Fell English SC',serif;font-size:0.95rem;color:var(--bone);">Dark Music</span>
+                    <span style="font-size:0.6rem;letter-spacing:0.3em;color:var(--ash);margin-left:auto;">THEORY · SYNTHESIS · LIVE CODING</span>
+                </div>
+                <p style="font-size:0.72rem;color:var(--chalk-dim);letter-spacing:0.05em;">No lessons published yet.</p>
+            </div>
+        </div>
+
     </main>
 </div>
 
 <script src="../assets/js/terminal.js"></script>
 <script>
-    // Show authenticated user and date
+    function showPane(id) {
+        document.querySelectorAll('.content-section').forEach(function (s) {
+            s.classList.remove('active-pane');
+        });
+        var target = document.getElementById(id);
+        if (target) target.classList.add('active-pane');
+    }
+
+    function setActive(el) {
+        document.querySelectorAll('.sidebar-nav a').forEach(function (a) {
+            a.classList.remove('active');
+        });
+        el.classList.add('active');
+        var href = el.getAttribute('href');
+        if (href && href.startsWith('#')) {
+            showPane(href.slice(1));
+        }
+    }
+
+    function endSession() {
+        sessionStorage.removeItem('ghosts_token');
+        sessionStorage.removeItem('ghosts_refresh');
+        sessionStorage.removeItem('ghosts_user');
+        window.location.replace('../portal/');
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         var user = sessionStorage.getItem('ghosts_user') || 'operator';
         document.getElementById('session-user').textContent = user;
@@ -272,23 +354,21 @@
         var now = new Date();
         document.getElementById('dashboard-date').textContent =
             now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    });
 
-    // Sidebar active link
-    function setActive(el) {
+        // Show overview pane on load
+        showPane('overview');
+
+        // Intercept all anchor clicks in sidebar to prevent page jump
         document.querySelectorAll('.sidebar-nav a').forEach(function (a) {
-            a.classList.remove('active');
+            a.addEventListener('click', function (e) {
+                var href = a.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    setActive(a);
+                }
+            });
         });
-        el.classList.add('active');
-    }
-
-    // End session
-    function endSession() {
-        sessionStorage.removeItem('ghosts_token');
-        sessionStorage.removeItem('ghosts_refresh');
-        sessionStorage.removeItem('ghosts_user');
-        window.location.replace('../portal/');
-    }
+    });
 </script>
 
 </body>
