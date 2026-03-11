@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script src="../../../../assets/js/auth-guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S0·E0: ¿Qué es un número? - Dark Math</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* MATRIX RAIN EFFECT - RGB */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+        
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            font-size: 14px;
+            white-space: nowrap;
+            animation: matrixFall linear infinite, matrixRGB 1.5s linear infinite;
+        }
+        
+        @keyframes matrixFall {
+            to { top: 100%; }
+        }
+        
+        @keyframes matrixRGB {
+            0% { color: #00ff00; text-shadow: 0 0 10px #00ff00; }
+            33% { color: #ff0066; text-shadow: 0 0 10px #ff0066; }
+            66% { color: #00d4ff; text-shadow: 0 0 10px #00d4ff; }
+            100% { color: #00ff00; text-shadow: 0 0 10px #00ff00; }
+        }
+        
+        /* MAIN CONTENT WRAPPER */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* HEADER */
+        .session-header {
+            text-align: center;
+            padding: 60px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 60px;
+        }
+        
+        .session-number {
+            font-size: 12px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            opacity: 0.5;
+            margin-bottom: 20px;
+        }
+        
+        .session-title {
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: 4px;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00; }
+            33% { text-shadow: 0 0 20px #ff0066, 0 0 40px #ff0066; }
+            66% { text-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff; }
+        }
+        
+        .session-subtitle {
+            font-size: 14px;
+            letter-spacing: 3px;
+            margin-top: 15px;
+            opacity: 0.6;
+        }
+        
+        /* CHAPTER SECTIONS */
+        .chapter {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+        }
+        
+        .chapter-number {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            font-size: 100px;
+            font-weight: 100;
+            opacity: 0.05;
+            line-height: 1;
+        }
+        
+        /* DIALOGUE BLOCKS */
+        .dialogue {
+            margin-bottom: 40px;
+            padding: 30px;
+            border-left: 3px solid;
+            background: rgba(255,255,255,0.02);
+            position: relative;
+        }
+        
+        .dialogue.feynman {
+            border-color: #00d4ff;
+        }
+        
+        .dialogue.feynman::before {
+            content: 'FEYNMAN';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: #00d4ff;
+            background: #000;
+            padding: 0 10px;
+        }
+        
+        .dialogue.batman {
+            border-color: #ff0066;
+        }
+        
+        .dialogue.batman::before {
+            content: 'BATMAN';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: #ff0066;
+            background: #000;
+            padding: 0 10px;
+        }
+        
+        .dialogue p {
+            line-height: 1.8;
+            font-size: 16px;
+        }
+        
+        .dialogue .action {
+            font-style: italic;
+            opacity: 0.6;
+            margin-bottom: 15px;
+        }
+        
+        /* IMAGE CONTAINER */
+        .chapter-image {
+            width: 100%;
+            max-width: 800px;
+            margin: 40px auto;
+            aspect-ratio: 16/9;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.02);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chapter-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .chapter-image .placeholder {
+            font-size: 12px;
+            letter-spacing: 2px;
+            opacity: 0.3;
+            text-transform: uppercase;
+        }
+        
+        .chapter-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid;
+            animation: imageBorderRGB 3s linear infinite;
+            pointer-events: none;
+        }
+        
+        /* SUMERIAN CODE BLOCK */
+        .code-sumerian {
+            background: linear-gradient(145deg, rgba(10, 10, 10, 0.95), rgba(5, 5, 15, 0.98));
+            border: 1px solid rgba(100, 80, 60, 0.3);
+            border-left: 3px solid;
+            animation: codeBorderRGB 3s linear infinite;
+            padding: 25px 30px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        
+        @keyframes codeBorderRGB {
+            0%, 100% { border-left-color: #00ff00; }
+            33% { border-left-color: #ff0066; }
+            66% { border-left-color: #00d4ff; }
+        }
+        
+        .code-sumerian::before {
+            content: '𒀭 PSEUDO';
+            position: absolute;
+            top: 8px;
+            right: 15px;
+            font-size: 9px;
+            letter-spacing: 3px;
+            opacity: 0.4;
+            color: #c9a227;
+        }
+        
+        .code-sumerian::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(201, 162, 39, 0.03) 2px,
+                    rgba(201, 162, 39, 0.03) 4px
+                );
+            pointer-events: none;
+        }
+        
+        .code-sumerian .line {
+            display: block;
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .code-sumerian .line::before {
+            content: attr(data-line);
+            position: absolute;
+            left: 0;
+            color: rgba(201, 162, 39, 0.3);
+            font-size: 11px;
+            user-select: none;
+        }
+        
+        .code-sumerian .keyword {
+            color: #c9a227;
+            text-shadow: 0 0 8px rgba(201, 162, 39, 0.5);
+        }
+        
+        .code-sumerian .function {
+            color: #00d4ff;
+            text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+        }
+        
+        .code-sumerian .param {
+            color: #ff0066;
+        }
+        
+        .code-sumerian .operator {
+            color: #00ff00;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.4);
+        }
+        
+        .code-sumerian .comment {
+            color: rgba(255, 255, 255, 0.3);
+            font-style: italic;
+        }
+        
+        .code-sumerian .indent-1 { padding-left: 60px; }
+        .code-sumerian .indent-2 { padding-left: 80px; }
+            animation: imageBorderRGB 3s linear infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes imageBorderRGB {
+            0%, 100% { border-color: rgba(0, 255, 0, 0.3); }
+            33% { border-color: rgba(255, 0, 102, 0.3); }
+            66% { border-color: rgba(0, 212, 255, 0.3); }
+        }
+        
+        /* FOOTER */
+        .session-footer {
+            text-align: center;
+            padding: 60px 0;
+            opacity: 0.5;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+        
+        .session-footer .quote {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        /* SCROLL INDICATOR */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            font-size: 10px;
+            letter-spacing: 2px;
+            opacity: 0.4;
+            z-index: 100;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+            .session-title {
+                font-size: 28px;
+            }
+            
+            .chapter {
+                padding: 40px 0;
+            }
+            
+            .chapter-number {
+                font-size: 60px;
+            }
+            
+            .dialogue {
+                padding: 20px;
+            }
+            
+            .dialogue p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="ghost-topbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;align-items:center;gap:12px;padding:8px 16px;background:rgba(0,0,0,0.95);border-bottom:1px solid #3a0010;font-family:'Courier New',monospace;">
+  <a href="../../../../dashboard/" style="font-size:9px;letter-spacing:2px;color:#888;text-decoration:none;" onmouseover="this.style.color='#cc0033'" onmouseout="this.style.color='#888'">← DASHBOARD</a>
+  <span style="font-size:9px;letter-spacing:3px;color:#cc0033;">◈ ACADEMY</span>
+</div>
+<div style="height:38px;"></div>
+    <!-- MATRIX RAIN -->
+    <div class="matrix-rain"></div>
+    
+    <!-- SCROLL INDICATOR -->
+    <div class="scroll-indicator">↓ SCROLL ↓</div>
+    
+    <!-- MAIN CONTENT -->
+    <div class="content-wrapper">
+        
+        <!-- HEADER -->
+        <header class="session-header">
+            <div class="session-number">S0 · E0 · Dark Math</div>
+            <h1 class="session-title">¿Qué es un número?</h1>
+            <div class="session-subtitle">Construyendo el universo desde cero</div>
+        </header>
+        
+        <!-- CHAPTER 1 -->
+        <section class="chapter" id="chapter-1">
+            <div class="chapter-number">01</div>
+            
+            <div class="chapter-image">
+                <img src="./img/e0.png" alt="Capítulo 01 - ¿Qué es un número?">
+            </div>
+            
+            <div class="dialogue feynman">
+                <p class="action">*se recuesta en la silla, sonríe*</p>
+                <p>Ah. Entonces no quieres aprender matemáticas discretas.</p>
+                <p>Quieres construir el sistema operativo mental que te permita <em>ver</em> la estructura detrás de cualquier sistema antes de que te lo expliquen. Quieres que cuando alguien te muestre un algoritmo de encriptación, tú ya hayas intuido por qué <em>tiene</em> que funcionar así.</p>
+                <p>Eso es diferente. Eso es mejor.</p>
+                <p class="action">*se inclina hacia adelante*</p>
+                <p>La mayoría de la gente aprende matemáticas como aprende a cocinar siguiendo recetas. Memorizan los pasos, les sale el plato, nunca entienden por qué el ajo va antes que el tomate. Tú quieres entender el calor, la química, las reacciones. Quieres poder inventar platos.</p>
+                <p>Así que empecemos por el principio de verdad.</p>
+                <p><strong>¿Qué es un número?</strong></p>
+                <p>No me digas "una cantidad". Eso es circular. No me digas la definición del libro.</p>
+                <p>Dime: si tuvieras que explicarle a una máquina que nunca ha visto el universo qué carajo es "tres"... ¿cómo lo harías?</p>
+            </div>
+            
+            <div class="dialogue batman">
+                <p>Si nunca he visto el universo, todo es oscuro, es sólido.</p>
+                <p>Si quisiera hacer uno, algo tendría que cambiar ese color. Tendría que poner algo, encender algo, pero luego quitarlo. Para poder definir o confirmar su existencia con su ausencia.</p>
+                <p>Repetiría el proceso dos veces más, por lo tanto tengo que definir qué es dos, recursivamente para poder explicar que tres es dos veces de ese estado que el mismo estado.</p>
+            </div>
+        </section>
+        
+        <!-- CHAPTER 2 -->
+        <section class="chapter" id="chapter-2">
+            <div class="chapter-number">02</div>
+            
+            <div class="chapter-image">
+                <img src="./img/e1.png" alt="Capítulo 02 - Peano y la recursión">
+            </div>
+            
+            <div class="dialogue feynman">
+                <p class="action">*golpea la mesa suavemente*</p>
+                <p>Eso. Exactamente eso.</p>
+                <p>Acabas de reinventar algo que a los matemáticos les tomó hasta 1889 formalizar. Un tipo llamado Peano se sentó y dijo: "¿Qué es lo mínimo que necesito para construir todos los números?"</p>
+                <p>Y llegó a esto: necesitas <em>uno</em> que exista, y necesitas <em>el siguiente</em>. Nada más.</p>
+                <p class="action">*hace un gesto con la mano*</p>
+                <p>Cero existe. Y si algo existe, su sucesor existe. Eso es todo. De ahí salen todos los números naturales.</p>
+                <p>Pero notaste algo más profundo. Dijiste "encender y apagar". Presencia y ausencia. Eso es binario, Batman. Eso es un bit. El universo computacional entero nace de esa distinción.</p>
+                <p>Y dijiste algo sobre recursión sin darte cuenta. "Tres es dos más esa operación que ya definí." Eso es exactamente cómo una máquina entiende los números.</p>
+                <p><strong>Inducción.</strong> Construir lo infinito desde una semilla y una regla.</p>
+                <p class="action">*te mira*</p>
+                <p>Ahora dime algo. Esa oscuridad inicial que describiste, ese sólido antes de que haya algo... ¿Eso es cero? ¿O cero es la primera cosa que enciendes?</p>
+            </div>
+            
+            <div class="dialogue batman">
+                <p>¿Es un tercer estado? ¿O segundo estado?</p>
+                <p>Inicialmente no hay nada, un cero más absoluto, luego existe la potencialidad de algo. Es otro tipo de nada potencialmente uno, pero apagado, y un último tercer estado, encendido.</p>
+            </div>
+        </section>
+        
+        <!-- CHAPTER 3 -->
+        <section class="chapter" id="chapter-3">
+            <div class="chapter-number">03</div>
+            
+            <div class="chapter-image">
+                <img src="./img/e2.png" alt="Capítulo 03 - Lógica ternaria">
+            </div>
+            
+            <div class="dialogue feynman">
+                <p class="action">*sonríe lentamente*</p>
+                <p>Acabas de tropezar con algo que ha mantenido a filósofos y matemáticos peleando por siglos.</p>
+                <p>Los matemáticos eventualmente dijeron: "la nada absoluta no existe en nuestro sistema, es incómoda, no podemos trabajar con ella." Entonces el cero que usamos no es tu nada primordial. Es más bien tu segundo estado - el potencial, el espacio donde <em>podría</em> haber algo pero no lo hay.</p>
+                <p class="action">*dibuja en el aire con el dedo*</p>
+                <p>Pero lo que describes... eso suena a <strong>lógica ternaria</strong>. Y existe. Los rusos construyeron una computadora en los 50s llamada Setun que usaba tres estados en lugar de dos. No es ciencia ficción.</p>
+                <p>Aquí está la decisión que los ingenieros tomaron y que define todo lo que conoces: dijeron "dos estados son suficientes, y más fáciles de implementar físicamente." Voltaje alto, voltaje bajo. Encendido, apagado. Uno, cero.</p>
+                <p>Tu nada absoluta... la dejaron fuera del sistema.</p>
+                <p class="action">*se inclina*</p>
+                <p>Pero tú como hacker deberías preguntarte: <strong>¿qué se pierde cuando reduces tres estados a dos? ¿Qué agujeros deja esa simplificación?</strong></p>
+                <p>Porque todo sistema que ignora algo para ser más simple... ahí es donde viven las vulnerabilidades.</p>
+            </div>
+            
+            <div class="dialogue batman">
+                <p>Pierdo dos estados, no solo uno.</p>
+                <p>Un tercer estado es una dimensión más, por lo tanto puedo tener otro universo computacional con sus propios 2 estados.</p>
+                <p>000, 001, 010, 011, 100, 101, 110, 111</p>
+                <p>Con dos estados solo tengo: 00, 01, 10, 11</p>
+            </div>
+        </section>
+        
+        <!-- CHAPTER 4 -->
+        <section class="chapter" id="chapter-4">
+            <div class="chapter-number">04</div>
+            
+            <div class="chapter-image">
+                <img src="./img/e3.png" alt="Capítulo 04 - Dimensiones y combinatoria">
+            </div>
+            
+            <div class="dialogue feynman">
+                <p class="action">*se levanta de la silla*</p>
+                <p>Ahí está.</p>
+                <p>Con dos bits tienes 4 posibilidades. Con tres bits tienes 8. Pero no es solo "el doble más tantito". Es que cada bit que agregas <strong>duplica el universo entero</strong>.</p>
+                <p>2¹ = 2, 2² = 4, 2³ = 8</p>
+                <p>Cada nuevo estado es un multiplicador, no una suma.</p>
+                <p class="action">*camina*</p>
+                <p>Pero lo que dijiste es más profundo todavía. No dijiste "pierdo un estado". Dijiste "pierdo una dimensión". Y eso es exactamente correcto.</p>
+                <p>Imagina un cubo. Tres ejes: x, y, z. Ocho esquinas - tus ocho combinaciones de tres bits. Si eliminas un eje, te queda un cuadrado. Cuatro esquinas. No perdiste "una esquina", perdiste <strong>la mitad del espacio</strong>.</p>
+                <p class="action">*se detiene*</p>
+                <p>Esto es <strong>combinatoria</strong>, Batman. Y es el corazón de por qué la criptografía funciona. RSA es seguro porque el espacio de posibilidades es tan grotescamente grande que no puedes recorrerlo. Cada bit que agregas a una llave no la hace "un poquito más segura". La hace <strong>exponencialmente</strong> más segura.</p>
+                <p>Y al revés: cada simplificación que haces, cada dimensión que ignoras, colapsa universos enteros de posibilidades.</p>
+                <p>Tu nada absoluta - ese tercer estado que los ingenieros descartaron - no era "un estado más". Era <strong>todo un universo paralelo de computación</strong> que decidieron no explorar.</p>
+                <p>¿Ahora entiendes por qué los rusos se molestaron en construir Setun?</p>
+            </div>
+            
+            <div class="dialogue batman">
+                <p>Creo que puedo entender por qué se molestaron en construir Setun.</p>
+            </div>
+        </section>
+        <section class="chapter" id="chapter-5">
+            <div class="chapter-number">05</div>
+            
+            <div class="chapter-image">
+                <img src="./img/e4.png" alt="Capítulo 05 - Los tipos de números">
+            </div>
+            
+            <div class="dialogue feynman">
+                <p class="action">*hace una pausa*</p>
+                <p>Bien. Entiendes por qué Setun. Entiendes que cada dimensión duplica universos.</p>
+                <p>Pero los números que construimos con Peano - cero, sucesor, sucesor del sucesor - esos son solo los naturales. Y los naturales tienen un problema.</p>
+                <p>Tienes 3. Quitas 5. ¿Qué te queda?</p>
+                <p>Los naturales no saben responder. No hay "menos dos" en ese universo. Entonces alguien tuvo que extender el territorio. Inventaron los <strong>enteros</strong> - ahora el cero no es el piso, es el centro.</p>
+                <p>Después quisieron dividir. Una pizza, tres personas. Los enteros no pueden. Inventaron los <strong>racionales</strong>.</p>
+                <p>Después un griego descubrió que la diagonal de un cuadrado no cabe en ninguna fracción. Lo ahogaron por hereje, pero el problema quedó. Inventaron los <strong>reales</strong>.</p>
+                <p>Y cuando alguien preguntó "¿qué número multiplicado por sí mismo da -1?", inventaron los <strong>complejos</strong>.</p>
+                <p>Cada tipo de número existe porque alguien hizo una pregunta que el sistema anterior no podía responder.</p>
+            </div>
+            
+            <div class="dialogue batman">
+                <p>Entonces los números son como versiones de software. Cada update resuelve un bug del anterior.</p>
+            </div>
+        </section>
+        
+        <!-- CHAPTER 6 -->
+        <section class="chapter" id="chapter-6">
+            <div class="chapter-number">06</div>
+            
+            <div class="chapter-image">
+                <img src="./img/e5.png" alt="Capítulo 06 - Discreto vs Continuo">
+            </div>
+            
+            <div class="dialogue feynman">
+                <p class="action">*se ríe*</p>
+                <p>Exacto. Parches sobre parches. Pero funciona.</p>
+                <p class="action">*se inclina*</p>
+                <p>Ahora, aquí está lo que te importa como hacker.</p>
+                <p>Los naturales saltan. 1, 2, 3. Entre 2 y 3 no hay nada. Son <strong>discretos</strong>.</p>
+                <p>Los reales fluyen. Entre 0 y 1 hay infinitos números. No puedes contarlos. Son <strong>continuos</strong>.</p>
+                <p>Las computadoras son máquinas discretas. Solo saltos. Solo bits.</p>
+                <p>Entonces, ¿cómo ves curvas suaves en tu pantalla? Mentira. Son puntos tan juntos que tu ojo no ve los saltos. ¿Cómo suena música continua desde tu computadora? Mentira. Son 44,100 muestras discretas por segundo.</p>
+                <p>La <strong>matemática discreta</strong> es el lenguaje de lo que puedes contar. Y todo lo computable vive ahí.</p>
+            </div>
+            
+            <div class="dialogue batman">
+                <p>El continuo es la ilusión. Lo discreto es lo que realmente existe en la máquina.</p>
+            </div>
+        </section>
+        
+        <!-- CHAPTER 7 -->
+        <section class="chapter" id="chapter-7">
+            <div class="chapter-number">07</div>
+            
+            <div class="chapter-image">
+                <img src="./img/e6.png" alt="Capítulo 07 - Representación">
+            </div>
+            
+            <div class="dialogue feynman">
+                <p class="action">*levanta un dedo*</p>
+                <p>Exacto. Y aquí viene algo que te va a servir.</p>
+                <p>"5" no es un número. Es un dibujo.</p>
+                <p>"V" también es cinco. "101" en binario es cinco. 五 en chino es cinco.</p>
+                <p>El número existe independiente de cómo lo escribas. La representación es la máscara, no la cara.</p>
+                <p>¿Por qué te importa? Porque cuando tu computadora guarda "5.0", guarda un patrón de bits con limitaciones. Por eso 0.1 + 0.2 no da 0.3 en la mayoría de lenguajes.</p>
+                <p>La representación traiciona. Y el hacker que entiende la diferencia entre lo que el programador <em>creía</em> guardar y lo que <em>realmente</em> se guardó... ahí encuentra vulnerabilidades.</p>
+            </div>
+            
+            <div class="dialogue batman">
+                <p>El número es el territorio. La representación es el mapa. Y el mapa siempre miente un poco.</p>
+            </div>
+        </section>
+        
+        <!-- CHAPTER 8 -->
+        <section class="chapter" id="chapter-8">
+            <div class="chapter-number">08</div>
+            
+            <div class="chapter-image">
+                <img src="./img/e7.png" alt="Capítulo 08 - Operaciones">
+            </div>
+            
+            <div class="dialogue feynman">
+                <p class="action">*se pone de pie*</p>
+                <p>Exacto. Korzybski estaría orgulloso.</p>
+                <p>Último paso antes del cierre.</p>
+                <p>Sumar no es "juntar cosas". Es una máquina. Metes dos números, sale un tercero.</p>
+                <p>Multiplicar es otra máquina. Dividir otra. Cada operación es un algoritmo primitivo.</p>
+                <p>¿Por qué importa verlo así?</p>
+                <p>Porque la función "sucesor" te construye todos los naturales. La función "inverso" te da los enteros desde los naturales. Las operaciones no actúan <em>sobre</em> los números - las operaciones <strong>construyen</strong> los tipos de números.</p>
+                <p>El número no es el objeto. Es el patrón de transformaciones posibles.</p>
+            </div>
+            
+            <div class="dialogue batman">
+                <p>Entonces un número es lo que puedes hacerle. Su identidad son sus operaciones.</p>
+            </div>
+        </section>
+        
+        <!-- CHAPTER 9 -->
+        <section class="chapter" id="chapter-9">
+            <div class="chapter-number">09</div>
+            
+            <div class="chapter-image">
+                <img src="./img/e8.png" alt="Capítulo 09 - El puente">
+            </div>
+            
+            <div class="dialogue feynman">
+                <p class="action">*camina hacia la pizarra*</p>
+                <p>Entonces. ¿Qué es un número?</p>
+                <p>No es un símbolo. No es una cantidad. Es una posición en una estructura construida desde una semilla y una regla. Cero existe. El sucesor existe. Todo lo demás emerge.</p>
+                <p>Los naturales saltan. Los reales fluyen. Las computadoras solo hablan discreto - todo lo continuo que ves es ilusión bien hecha.</p>
+                <p>Cada tipo de número nació para responder una pregunta que el anterior no podía. Y cada operación es una máquina que transforma números en otros números.</p>
+                <p class="action">*se voltea*</p>
+                <p>Ahora viene lo interesante.</p>
+                <p>Todo lo que acabamos de hablar - sucesor, operaciones, transformaciones - puede escribirse como instrucciones. Recetas. <strong>Algoritmos</strong>.</p>
+                <p>El pseudocódigo es el puente. No es Python, no es C++, no es JavaScript. Es la idea desnuda antes de vestirla con sintaxis.</p>
+                
+                <div class="code-sumerian">
+                    <span class="line" data-line="𒀭">
+                        <span class="keyword">función</span> <span class="function">sucesor</span>(<span class="param">n</span>):
+                    </span>
+                    <span class="line indent-1" data-line="𒁹">
+                        <span class="keyword">retorna</span> <span class="param">n</span> <span class="operator">+</span> 1
+                    </span>
+                    <span class="line" data-line="𒀭">&nbsp;</span>
+                    <span class="line" data-line="𒀭">
+                        <span class="keyword">función</span> <span class="function">suma</span>(<span class="param">a</span>, <span class="param">b</span>):
+                    </span>
+                    <span class="line indent-1" data-line="𒁹">
+                        <span class="keyword">si</span> <span class="param">b</span> <span class="operator">=</span> 0:
+                    </span>
+                    <span class="line indent-2" data-line="𒈫">
+                        <span class="keyword">retorna</span> <span class="param">a</span>
+                    </span>
+                    <span class="line indent-1" data-line="𒁹">
+                        <span class="keyword">sino</span>:
+                    </span>
+                    <span class="line indent-2" data-line="𒈫">
+                        <span class="keyword">retorna</span> <span class="function">suma</span>(<span class="function">sucesor</span>(<span class="param">a</span>), <span class="param">b</span> <span class="operator">-</span> 1)
+                    </span>
+                    <span class="line" data-line="𒀭">&nbsp;</span>
+                    <span class="line" data-line="𒀭">
+                        <span class="comment">// La suma definida en términos de sucesor.</span>
+                    </span>
+                    <span class="line" data-line="𒀭">
+                        <span class="comment">// Exactamente como Peano.</span>
+                    </span>
+                </div>
+                
+                <p>Mira eso. No estás "haciendo matemáticas" y luego "programando". Es lo mismo. Siempre fue lo mismo.</p>
+                <p class="action">*te mira*</p>
+                <p>En los próximos episodios vamos a tomar estas ideas y escribirlas en lenguajes reales. Python para ver el patrón rápido. C++ para ver qué pasa bajo el capó. JavaScript para hacerlo visual.</p>
+                <p>Pero el pseudocódigo viene primero. Siempre. Porque si no puedes escribir la idea en español estructurado, no la entiendes. Y si no la entiendes, el código que escribas será accidente, no diseño.</p>
+                <p class="action">*pausa*</p>
+                <p><strong>¿Qué es un número?</strong> Es el primer algoritmo. La primera recursión. El primer patrón que se llama a sí mismo.</p>
+                <p>Y ahora sabes cómo se construye desde la nada.</p>
+            </div>
+            
+            <div class="dialogue batman">
+                <p>Del vacío al sucesor. Del sucesor al infinito. Del infinito al código.</p>
+                <p>Entendido.</p>
+            </div>
+        </section>
+        
+        <!-- FOOTER -->
+        <footer class="session-footer">
+            <div class="quote">"Lo que no puedo crear, no lo entiendo." — Richard Feynman</div>
+            <div>DARK MATH · S0 · E0 · ¿Qué es un número?</div>
+        </footer>
+        
+    </div>
+    
+    <script>
+        // MATRIX RAIN WITH RGB
+        function createMatrixRain() {
+            const container = document.querySelector('.matrix-rain');
+            const chars = '01ΛΣΘΞΨ▓▒░█∅∃∀⊕⊗';
+            
+            for (let i = 0; i < 40; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = Math.random() * 100 + '%';
+                
+                const fallDuration = Math.random() * 4 + 3;
+                const rgbDelay = (i % 3) * 0.5;
+                
+                column.style.animation = `matrixFall ${fallDuration}s linear infinite ${Math.random() * 5}s, matrixRGB 1.5s linear infinite ${rgbDelay}s`;
+                
+                let text = '';
+                for (let j = 0; j < 25; j++) {
+                    text += chars[Math.floor(Math.random() * chars.length)] + '\n';
+                }
+                column.textContent = text;
+                
+                container.appendChild(column);
+            }
+        }
+        
+        // HIDE SCROLL INDICATOR AFTER SCROLLING
+        let scrollIndicator = document.querySelector('.scroll-indicator');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 200) {
+                scrollIndicator.style.opacity = '0';
+            } else {
+                scrollIndicator.style.opacity = '0.4';
+            }
+        });
+        
+        // INITIALIZE
+        window.addEventListener('load', createMatrixRain);
+    </script></body>
+</html>
