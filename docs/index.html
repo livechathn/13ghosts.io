@@ -34,13 +34,29 @@
     body{
       font-family:'Rajdhani',sans-serif;color:var(--text);
       font-size:16px;line-height:1.6;letter-spacing:0.3px;overflow-x:hidden;
-      background:radial-gradient(ellipse at top,rgba(255,26,26,0.10),transparent 60%),var(--void);
+      background:var(--void);
       min-height:100vh;
     }
-    /* scrim — keeps deep black at the base */
+    /* Landing.jpeg — img inside fixed container, panned via GPU translate3d.
+       Image aspect is 2:3 (1024×1536). width:max(100vw, 100vh×2/3) guarantees
+       cover on both landscape + portrait. JS translates Y from 0 → -extraPx. */
+    .bg-image{
+      position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden;
+      background:var(--void);
+    }
+    .bg-image img{
+      position:absolute;left:50%;top:0;
+      width:max(100vw,calc(100vh * 2 / 3));height:auto;
+      transform:translate3d(-50%,0,0);
+      will-change:transform;
+      display:block;
+    }
+    /* scrim — keeps deep black at the base, lets bg image read at top */
     .bg-scrim{
       position:fixed;inset:0;z-index:-1;pointer-events:none;
-      background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 60%,rgba(0,0,0,0.92) 100%);
+      background:
+        radial-gradient(ellipse at top,rgba(255,26,26,0.10),transparent 60%),
+        linear-gradient(180deg,rgba(0,0,0,0.40) 0%,rgba(0,0,0,0.60) 55%,rgba(0,0,0,0.88) 100%);
     }
     /* scanline overlay — red-tinted */
     body::before{
@@ -54,7 +70,7 @@
     .header{
       position:fixed;top:0;left:0;right:0;z-index:50;
       display:flex;align-items:center;gap:20px;padding:14px 32px;
-      background:rgba(0,0,0,0.92);backdrop-filter:blur(8px);
+      background:rgba(0,0,0,0.96);
       border-bottom:1px solid var(--line);
     }
     .header-brand{flex-shrink:0;display:flex;align-items:center;gap:12px}
@@ -92,8 +108,19 @@
       position:relative;min-height:100vh;display:flex;flex-direction:column;
       align-items:center;justify-content:center;text-align:center;padding:60px 24px 100px;
     }
+    .sigil-halo{
+      position:relative;display:inline-block;margin-bottom:32px;line-height:0;
+    }
+    .sigil-halo::before{
+      content:'';position:absolute;left:50%;top:50%;
+      transform:translate(-50%,-50%);
+      width:280px;height:280px;border-radius:50%;
+      background:radial-gradient(circle,rgba(0,0,0,0.78) 0%,rgba(0,0,0,0.45) 38%,transparent 72%);
+      pointer-events:none;z-index:0;
+    }
     .hero-sigil{
-      width:120px;height:120px;margin-bottom:32px;
+      position:relative;z-index:1;
+      width:120px;height:120px;
       filter:drop-shadow(0 0 24px rgba(255,26,26,0.7)) drop-shadow(0 0 48px rgba(255,26,26,0.3));
       animation:sigil-pulse 4s ease-in-out infinite;
     }
@@ -303,6 +330,7 @@
 </head>
 <body>
 
+<div class="bg-image"><img src="assets/Landing.jpeg" alt="" aria-hidden="true"></div>
 <div class="bg-scrim"></div>
 
 <!-- HEADER -->
@@ -327,7 +355,7 @@
 
     <!-- HERO -->
     <section class="hero">
-        <img src="assets/img/sigil-mark.svg" alt="13Ghosts Sigil" class="hero-sigil">
+        <div class="sigil-halo"><img src="assets/img/sigil-mark.svg" alt="13Ghosts Sigil" class="hero-sigil"></div>
         <p class="hero-eyebrow">⟨ MALWARE &amp; DEMONOLOGY ANALYSIS LAB ⟩</p>
         <h1 class="hero-title">
             13GHOSTS
@@ -524,6 +552,26 @@ var io = new IntersectionObserver(function(ents){
   ents.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
 }, {threshold:0.12});
 document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+// bg-image scroll pan — GPU-accelerated translate3d on the inner <img>
+(function(){
+  var img = document.querySelector('.bg-image img');
+  if (!img) return;
+  var ticking = false;
+  function update(){
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var p = max > 0 ? Math.max(0, Math.min(1, window.scrollY / max)) : 0;
+    var extra = Math.max(0, img.offsetHeight - window.innerHeight);
+    var dy = -p * extra;
+    img.style.transform = 'translate3d(-50%, ' + dy.toFixed(0) + 'px, 0)';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (!ticking){ requestAnimationFrame(update); ticking = true; }
+  }, {passive:true});
+  window.addEventListener('resize', update);
+  if (img.complete) update(); else img.addEventListener('load', update);
+})();
 </script>
 </body>
 </html>
