@@ -3,343 +3,527 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="13Ghosts.io — Malware & Demonology Analysis Lab. Cybersecurity forensics, treated as exorcism.">
-    <title>13Ghosts.io — Malware &amp; Demonology Analysis Lab</title>
+    <title>13Ghosts.io · Malware &amp; Demonology Analysis Lab</title>
+
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+
+    <meta name="description" content="Every infection is a possession. Every remediation is a ritual. Malware × demonology — forensics, reverse engineering, exorcism.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://13ghosts.io/">
+    <meta property="og:title" content="13Ghosts.io · Malware &amp; Demonology Analysis Lab">
+    <meta property="og:description" content="Every infection is a possession. Every remediation is a ritual.">
+    <meta property="og:image" content="https://13ghosts.io/assets/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="13Ghosts.io · Malware &amp; Demonology Analysis Lab">
+    <meta name="twitter:description" content="Every infection is a possession. Every remediation is a ritual.">
+    <meta name="twitter:image" content="https://13ghosts.io/assets/og-image.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/grimoire.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* ─ Landing-page only styles ─ */
-        .services-section {
-            background: var(--ink-black);
-            padding: 1px 0 80px;
-        }
-        .method-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1px;
-            background: var(--ash);
-            border: 1px solid var(--ash);
-            margin-top: 48px;
-        }
-        .method-cell {
-            background: var(--leather-dark);
-            padding: 32px 28px;
-            transition: background 0.3s;
-        }
-        .method-cell:hover { background: var(--leather-mid); }
-        .method-num {
-            font-size: 0.6rem;
-            letter-spacing: 0.4em;
-            color: var(--blood-red);
-            display: block;
-            margin-bottom: 10px;
-        }
-        .method-name {
-            font-family: 'IM Fell English SC', serif;
-            font-size: 1rem;
-            color: var(--bone);
-            display: block;
-            margin-bottom: 10px;
-        }
-        .method-desc {
-            font-size: 0.78rem;
-            color: var(--chalk-dim);
-            line-height: 1.85;
-        }
-        .about-section {
-            background: var(--ink-black);
-            padding: 80px 48px;
-        }
-        .about-grid {
-            max-width: 900px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: start;
-        }
-        .about-copy {
-            font-size: 0.82rem;
-            color: var(--chalk-dim);
-            line-height: 2;
-            margin-bottom: 20px;
-        }
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            margin-top: 48px;
-            align-items: start;
-        }
-        .contact-copy {
-            font-size: 0.82rem;
-            color: var(--chalk-dim);
-            line-height: 2;
-            margin-bottom: 24px;
-        }
-        .contact-form {
-            padding: 40px 36px;
-        }
-        .contact-status {
-            margin-top: 14px;
-            font-size: 0.7rem;
-            color: var(--chalk-dim);
-            min-height: 1.2em;
-        }
-        .form-field-last { margin-bottom: 0; }
-        textarea { resize: vertical; }
-        @media (max-width: 768px) {
-            .about-grid,
-            .contact-grid { grid-template-columns: 1fr; }
-            .about-section { padding: 60px 24px; }
-        }
+    :root{
+      --void:#000000; --black:#050000; --surface:#0a0202; --raised:#140404; --line:#2a0808;
+      --red:#ff1a1a; --red-bright:#ff4040; --red-dim:#a00000; --blood:#8b0000; --blood-deep:#3d0000;
+      --ember:#ff5a1f; --ash:#8a7878; --bone:#e8d8d0; --text:#e8d8d0; --muted:#8a7878;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Rajdhani',sans-serif;color:var(--text);
+      font-size:16px;line-height:1.6;letter-spacing:0.3px;overflow-x:hidden;
+      background:radial-gradient(ellipse at top,rgba(255,26,26,0.10),transparent 60%),var(--void);
+      min-height:100vh;
+    }
+    /* scrim — keeps deep black at the base */
+    .bg-scrim{
+      position:fixed;inset:0;z-index:-1;pointer-events:none;
+      background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 60%,rgba(0,0,0,0.92) 100%);
+    }
+    /* scanline overlay — red-tinted */
+    body::before{
+      content:'';position:fixed;inset:0;pointer-events:none;z-index:200;
+      background:repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(255,26,26,0.013) 3px,rgba(255,26,26,0.013) 4px);
+    }
+    a{color:inherit;text-decoration:none}
+    button{font-family:'Rajdhani',sans-serif;cursor:pointer;border:none;background:none;color:inherit}
+
+    /* ─ HEADER ─ */
+    .header{
+      position:fixed;top:0;left:0;right:0;z-index:50;
+      display:flex;align-items:center;gap:20px;padding:14px 32px;
+      background:rgba(0,0,0,0.92);backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--line);
+    }
+    .header-brand{flex-shrink:0;display:flex;align-items:center;gap:12px}
+    .brand-sigil{
+      width:34px;height:34px;
+      filter:drop-shadow(0 0 8px rgba(255,26,26,0.6));
+    }
+    .header-brand h1{
+      font-family:'Orbitron',sans-serif;font-weight:900;font-size:18px;letter-spacing:3.5px;
+      color:var(--red);text-shadow:0 0 12px rgba(255,26,26,0.6);margin:0;
+    }
+    .header-brand h1 span{color:var(--red-bright)}
+    .header-tagline{
+      font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2.5px;
+      color:var(--blood);text-transform:uppercase;margin-top:2px;
+    }
+    .header-nav{margin-left:auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+    .header-nav a{
+      font-family:'Orbitron',sans-serif;font-weight:600;font-size:11px;letter-spacing:2.5px;
+      color:var(--muted);padding:8px 14px;text-transform:uppercase;transition:all 0.15s;
+    }
+    .header-nav a:hover{color:var(--red-bright);text-shadow:0 0 8px var(--red)}
+    .nav-portal{
+      background:linear-gradient(180deg,rgba(255,26,26,0.18),rgba(139,0,0,0.08));
+      border:1px solid var(--red)!important;color:var(--red)!important;font-weight:800!important;
+      box-shadow:0 0 0 1px rgba(255,26,26,0.25),inset 0 0 14px rgba(255,26,26,0.06);
+      clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);
+    }
+    .nav-portal:hover{background:var(--red);color:var(--void)!important;box-shadow:0 0 18px rgba(255,26,26,0.6)}
+
+    /* ─ HERO ─ */
+    .content-area{padding-top:72px;position:relative;z-index:1}
+    footer{position:relative;z-index:1}
+    .hero{
+      position:relative;min-height:100vh;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;text-align:center;padding:60px 24px 100px;
+    }
+    .hero-sigil{
+      width:120px;height:120px;margin-bottom:32px;
+      filter:drop-shadow(0 0 24px rgba(255,26,26,0.7)) drop-shadow(0 0 48px rgba(255,26,26,0.3));
+      animation:sigil-pulse 4s ease-in-out infinite;
+    }
+    @keyframes sigil-pulse{50%{filter:drop-shadow(0 0 32px rgba(255,26,26,0.9)) drop-shadow(0 0 64px rgba(255,26,26,0.45))}}
+    .hero-eyebrow{
+      font-family:'Orbitron',sans-serif;font-weight:700;font-size:11px;letter-spacing:5px;
+      color:var(--red-bright);text-transform:uppercase;margin-bottom:20px;
+      animation:fade-down 0.8s ease 0.25s backwards;
+    }
+    .hero-title{
+      font-family:'Orbitron',sans-serif;font-weight:900;
+      font-size:clamp(48px,9vw,108px);line-height:0.9;letter-spacing:6px;
+      color:var(--red);text-shadow:0 0 26px rgba(255,26,26,0.7),0 0 60px rgba(255,26,26,0.3);
+      margin-bottom:14px;text-transform:uppercase;
+      animation:fade-up 1s ease 0.4s backwards;
+    }
+    .hero-title .line2{
+      display:block;font-family:'Rajdhani',sans-serif;font-weight:600;
+      font-size:0.22em;letter-spacing:8px;color:var(--bone);
+      text-shadow:0 0 16px rgba(255,26,26,0.4);margin-top:18px;
+    }
+    .hero-subtitle{
+      font-size:clamp(15px,2vw,18px);font-weight:400;color:var(--text);max-width:580px;
+      line-height:1.85;margin:32px auto;animation:fade-up 1s ease 0.7s backwards;
+    }
+    .hero-subtitle em{color:var(--red-bright);font-style:normal;font-weight:600}
+    .hero-actions{
+      display:flex;gap:18px;justify-content:center;flex-wrap:wrap;
+      animation:fade-up 1s ease 1s backwards;
+    }
+    .btn-primary{
+      display:inline-flex;align-items:center;gap:10px;padding:18px 36px;
+      background:linear-gradient(180deg,rgba(255,26,26,0.22),rgba(139,0,0,0.08));
+      border:1px solid var(--red);color:var(--red);
+      font-family:'Orbitron',sans-serif;font-weight:800;font-size:14px;letter-spacing:4px;
+      text-transform:uppercase;text-shadow:0 0 8px rgba(255,26,26,0.6);
+      box-shadow:0 0 0 1px rgba(255,26,26,0.3),inset 0 0 22px rgba(255,26,26,0.08);
+      transition:all 0.18s;
+      clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+    }
+    .btn-primary:hover{background:var(--red);color:var(--void);box-shadow:0 0 32px rgba(255,26,26,0.7);text-shadow:none;transform:translateY(-2px)}
+    .btn-ghost{
+      display:inline-flex;align-items:center;gap:10px;padding:18px 36px;
+      background:transparent;border:1px solid var(--blood);color:var(--red-bright);
+      font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;letter-spacing:4px;
+      text-transform:uppercase;transition:all 0.18s;
+      clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+    }
+    .btn-ghost:hover{background:var(--blood);color:var(--bone);box-shadow:0 0 22px rgba(139,0,0,0.7)}
+    .scroll-hint{
+      position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+      display:flex;flex-direction:column;align-items:center;gap:10px;
+      animation:bob 2s ease-in-out infinite;
+    }
+    .scroll-hint span{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:4px;color:var(--red);text-transform:uppercase}
+    .scroll-hint-line{width:1px;height:36px;background:linear-gradient(180deg,var(--red),transparent);box-shadow:0 0 8px var(--red)}
+    @keyframes bob{50%{transform:translateX(-50%) translateY(6px)}}
+    @keyframes fade-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fade-down{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ─ SECTION HEADERS ─ */
+    .section-header{text-align:center;margin-bottom:56px;padding:0 24px}
+    .section-header h2{
+      font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(28px,5vw,52px);
+      letter-spacing:6px;color:var(--red);text-transform:uppercase;
+      text-shadow:0 0 18px rgba(255,26,26,0.5);margin-bottom:14px;
+    }
+    .section-header p{font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:4px;color:var(--blood);text-transform:uppercase}
+
+    /* ─ MANIFESTO ─ */
+    .manifesto{
+      max-width:880px;margin:60px auto;padding:48px 32px;text-align:center;
+      background:var(--surface);border:1px solid var(--line);position:relative;
+    }
+    .manifesto::before{content:'';position:absolute;top:-1px;left:30px;right:30px;height:2px;background:var(--red);box-shadow:0 0 12px var(--red)}
+    .manifesto::after{content:'';position:absolute;bottom:-1px;left:30px;right:30px;height:2px;background:var(--blood);box-shadow:0 0 12px var(--blood)}
+    .manifesto-text{font-size:18px;line-height:1.9;color:var(--text);font-weight:400}
+    .manifesto-text strong{color:var(--red);font-weight:700}
+    .manifesto-text .accent{color:var(--red-bright);font-weight:700;text-shadow:0 0 12px rgba(255,64,64,0.4)}
+
+    .divider{
+      max-width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);
+      margin:80px auto;box-shadow:0 0 10px var(--red);
+    }
+
+    /* ─ THE FOUR RITES ─ */
+    .rites{max-width:1200px;margin:0 auto;padding:80px 32px}
+    .rites-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+    .rite-card{
+      background:var(--surface);border:1px solid var(--line);padding:32px 28px;
+      position:relative;transition:all 0.2s;
+    }
+    .rite-card::before{content:'';position:absolute;top:0;left:0;width:40px;height:2px;background:var(--red);box-shadow:0 0 8px var(--red)}
+    .rite-card::after{content:'';position:absolute;bottom:0;right:0;width:40px;height:2px;background:var(--blood)}
+    .rite-card:hover{border-color:var(--red);transform:translateY(-4px);box-shadow:0 12px 32px rgba(255,26,26,0.2)}
+    .rite-num{
+      font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:3px;
+      color:var(--blood);text-transform:uppercase;display:block;margin-bottom:8px;
+    }
+    .rite-icon{
+      font-family:'Orbitron',sans-serif;font-size:32px;color:var(--red);margin-bottom:14px;
+      text-shadow:0 0 18px rgba(255,26,26,0.6);
+    }
+    .rite-card h3{
+      font-family:'Orbitron',sans-serif;font-weight:800;font-size:15px;letter-spacing:3px;
+      color:var(--bone);text-transform:uppercase;margin-bottom:14px;
+    }
+    .rite-card p{font-size:14px;line-height:1.7;color:var(--muted)}
+
+    /* ─ METHODOLOGY ─ */
+    .how-section{max-width:1000px;margin:0 auto;padding:80px 32px}
+    .how-steps{display:flex;flex-direction:column;gap:24px}
+    .how-step{
+      display:flex;gap:32px;padding:28px 32px;background:var(--surface);border:1px solid var(--line);
+      align-items:center;transition:all 0.2s;position:relative;
+    }
+    .how-step::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--red);box-shadow:0 0 10px var(--red)}
+    .how-step:hover{border-color:var(--red);transform:translateX(4px)}
+    .step-marker{
+      font-family:'Orbitron',sans-serif;font-weight:900;font-size:42px;color:var(--red);
+      text-shadow:0 0 24px rgba(255,26,26,0.6);min-width:80px;letter-spacing:2px;
+    }
+    .how-step h3{
+      font-family:'Orbitron',sans-serif;font-weight:800;font-size:16px;letter-spacing:3px;
+      color:var(--bone);text-transform:uppercase;margin-bottom:8px;
+    }
+    .how-step p{font-size:14px;line-height:1.7;color:var(--muted)}
+
+    /* ─ LAB / TERMINAL BLOCK ─ */
+    .lab{max-width:1000px;margin:80px auto;padding:0 32px}
+    .lab-inner{
+      background:var(--surface);border:1px solid var(--line);padding:40px 36px;position:relative;
+      clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px);
+    }
+    .lab-inner::before{content:'';position:absolute;top:-1px;left:30px;right:30px;height:2px;background:var(--red);box-shadow:0 0 14px var(--red)}
+    .lab-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+    .lab-grid h3{
+      font-family:'Orbitron',sans-serif;font-weight:800;font-size:14px;letter-spacing:3.5px;
+      color:var(--red);text-transform:uppercase;margin-bottom:18px;
+    }
+    .lab-copy{font-size:14px;line-height:1.85;color:var(--muted);margin-bottom:12px}
+    .lab-copy strong{color:var(--bone);font-weight:700}
+    .terminal{
+      background:#000;border:1px solid var(--blood-deep);padding:24px;
+      font-family:'Courier New',monospace;font-size:12px;color:var(--red-bright);
+      min-height:240px;line-height:1.7;letter-spacing:0.5px;
+    }
+    .term-prompt{color:var(--red);font-weight:700}
+    .term-cmd{color:var(--bone)}
+    .term-out{color:var(--ash);display:block}
+    .term-out.ok{color:var(--red-bright)}
+    @media(max-width:760px){.lab-grid{grid-template-columns:1fr}}
+
+    /* ─ FINAL CTA ─ */
+    .cta-final{
+      max-width:880px;margin:80px auto;padding:80px 32px;text-align:center;
+      background:linear-gradient(135deg,rgba(255,26,26,0.06),rgba(139,0,0,0.04));
+      border:1px solid var(--blood);position:relative;
+    }
+    .cta-final::before{content:'';position:absolute;top:-1px;left:30px;right:30px;height:2px;background:var(--red);box-shadow:0 0 14px var(--red)}
+    .cta-final::after{content:'';position:absolute;bottom:-1px;left:30px;right:30px;height:2px;background:var(--blood);box-shadow:0 0 14px var(--blood)}
+    .cta-final h2{
+      font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(24px,4vw,42px);
+      letter-spacing:4px;color:var(--bone);line-height:1.3;text-transform:uppercase;
+      margin-bottom:14px;
+    }
+    .cta-final h2 span{color:var(--red);text-shadow:0 0 18px rgba(255,26,26,0.6);display:block;margin-top:8px}
+    .cta-sub{
+      font-family:'Orbitron',sans-serif;font-size:13px;letter-spacing:5px;
+      color:var(--red-bright);text-transform:uppercase;margin-bottom:36px;
+      text-shadow:0 0 12px rgba(255,64,64,0.4);
+    }
+
+    /* ─ FOOTER ─ */
+    footer{
+      border-top:1px solid var(--line);padding:48px 32px;text-align:center;
+      background:var(--void);
+    }
+    .footer-brand{
+      font-family:'Orbitron',sans-serif;font-weight:800;font-size:13px;letter-spacing:4px;
+      color:var(--bone);margin-bottom:18px;text-transform:uppercase;
+      display:flex;align-items:center;justify-content:center;gap:12px;
+    }
+    .footer-brand img{filter:drop-shadow(0 0 6px rgba(255,26,26,0.5))}
+    .footer-brand a{color:var(--red);text-shadow:0 0 10px rgba(255,26,26,0.4)}
+    .footer-brand a:hover{color:var(--red-bright)}
+    .footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:24px;flex-wrap:wrap}
+    .footer-links a{
+      font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;
+    }
+    .footer-links a:hover{color:var(--red-bright)}
+    .footer-copy{font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2.5px;color:var(--blood);text-transform:uppercase}
+
+    /* ─ REVEAL on scroll ─ */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease}
+    .reveal.in{opacity:1;transform:translateY(0)}
+
+    @media(max-width:760px){
+      .header{padding:14px 18px;gap:14px}
+      .header-nav{gap:4px}
+      .header-nav a{padding:6px 10px;font-size:10px;letter-spacing:1.5px}
+      .header-tagline{display:none}
+      .how-step{flex-direction:column;text-align:center;gap:16px}
+      .step-marker{font-size:36px;min-width:0}
+    }
     </style>
 </head>
 <body>
 
-    <!-- Navigation -->
-    <nav class="nav">
-        <a href="./" class="nav-brand">
-            <img src="assets/img/sigil-mark.svg" alt="13Ghosts Sigil" width="34" height="34">
-            <span class="nav-brand-name">13Ghosts</span>
-        </a>
-        <ul class="nav-links">
-            <li><a href="#services" class="active">Services</a></li>
-            <li><a href="#methodology">Methodology</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <a href="portal/" class="nav-cta">Client Portal</a>
-    </nav>
+<div class="bg-scrim"></div>
 
-    <!-- ── HERO ── -->
-    <section class="hero page-content">
+<!-- HEADER -->
+<header class="header">
+    <div class="header-brand">
+        <img src="assets/img/sigil-mark.svg" alt="13Ghosts Sigil" class="brand-sigil">
+        <div>
+            <h1>13<span>GHOSTS</span></h1>
+            <p class="header-tagline">⟨ MALWARE × DEMONOLOGY · NO MERCY ⟩</p>
+        </div>
+    </div>
+    <nav class="header-nav">
+        <a href="#rites">RITES</a>
+        <a href="#methodology">PROTOCOL</a>
+        <a href="academy/">ACADEMY</a>
+        <a href="portal/" class="nav-portal">▶ CLIENT PORTAL</a>
+    </nav>
+</header>
+
+<!-- CONTENT -->
+<div class="content-area">
+
+    <!-- HERO -->
+    <section class="hero">
         <img src="assets/img/sigil-mark.svg" alt="13Ghosts Sigil" class="hero-sigil">
-        <h1 class="hero-title">13Ghosts</h1>
-        <p class="hero-tagline"
-           data-typetext="Malware &amp; Demonology Analysis Lab"
-           data-typespeed="55"
-           data-typedelay="500"></p>
-        <p class="hero-terminal" id="hero-terminal"></p>
-        <div class="hero-cta">
-            <a href="#contact" class="btn-primary">Request Exorcism</a>
-            <a href="#services" class="btn-secondary">View Services</a>
+        <p class="hero-eyebrow">⟨ MALWARE &amp; DEMONOLOGY ANALYSIS LAB ⟩</p>
+        <h1 class="hero-title">
+            13GHOSTS
+            <span class="line2">every infection is a possession</span>
+        </h1>
+        <p class="hero-subtitle">
+            Persistent threats wear <em>flesh</em>. Metal-skinned, patient,
+            <em>named</em>. We catalog them, contain them, and cast them out.
+        </p>
+        <div class="hero-actions">
+            <a href="portal/" class="btn-primary">▶ REQUEST EXORCISM</a>
+            <a href="#rites" class="btn-ghost">◂ THE FOUR RITES</a>
+        </div>
+        <div class="scroll-hint">
+            <span>DESCEND</span>
+            <div class="scroll-hint-line"></div>
         </div>
     </section>
 
-    <!-- Burnt edge into dark services section -->
-    <div class="burnt-edge">
-        <img src="assets/textures/burnt-edge.svg" alt="" width="1440" height="60">
-    </div>
+    <!-- MANIFESTO -->
+    <section class="manifesto reveal">
+        <p class="manifesto-text">
+            A persistent APT on your network isn't a misconfiguration —
+            it's an <strong>entity with intent</strong>. With patience. With objectives.
+            You don't fix that with a patch.<br><br>
+            You <span class="accent">understand it</span>. Then you cast it out.
+        </p>
+    </section>
 
-    <!-- ── SERVICES ── -->
-    <div class="services-section" id="services">
-        <div class="section">
-            <span class="section-eyebrow">// Ritual Classification</span>
-            <h2 class="section-title">The Four Rites</h2>
-            <p class="section-intro">Every infection is a possession. Every remediation is a ritual.
-            We operate at the intersection of forensic science and systematic banishment —
-            because understanding how a demon works is the first step to casting it out.</p>
+    <div class="divider"></div>
 
-            <div class="cards-grid">
-                <div class="page-panel service-card">
-                    <span class="service-ritual">Rite I — Séance</span>
-                    <h3 class="service-title">Digital Forensics</h3>
-                    <p class="service-body">We commune with your compromised systems. Dead drives speak.
-                    Volatile memory holds confessions. We trace the infection back to its origin,
-                    reconstruct the moment of possession, and document every action
-                    the invader took inside your infrastructure.</p>
+    <!-- THE FOUR RITES -->
+    <section class="rites" id="rites">
+        <div class="section-header reveal">
+            <h2>THE FOUR RITES</h2>
+            <p>⟨ EVERY REMEDIATION IS A RITUAL ⟩</p>
+        </div>
+
+        <div class="rites-grid">
+            <div class="rite-card reveal">
+                <span class="rite-num">RITE · I</span>
+                <div class="rite-icon">◈</div>
+                <h3>Séance · Digital Forensics</h3>
+                <p>Dead drives speak. Volatile memory holds confessions. We commune with compromised systems,
+                trace the infection back to its origin, and reconstruct every step the invader took
+                inside the perimeter — timeline, lateral movement, exfil channel.</p>
+            </div>
+
+            <div class="rite-card reveal">
+                <span class="rite-num">RITE · II</span>
+                <div class="rite-icon">◇</div>
+                <h3>Demonology · Malware Analysis</h3>
+                <p>Static, dynamic, behavioral. Every specimen pulled apart in an airgapped containment circle.
+                Ars Goetia meets MITRE ATT&amp;CK. Every ghost gets a name, a taxonomy, a dossier —
+                whether it wears Sith armor, Rev9 metal, or no skin at all.</p>
+            </div>
+
+            <div class="rite-card reveal">
+                <span class="rite-num">RITE · III</span>
+                <div class="rite-icon">▲</div>
+                <h3>Exorcism · Incident Response</h3>
+                <p>Detect. Isolate. Banish. Seal. We don't just patch the entry — we verify the entity is gone,
+                cut every persistence mechanism, and prove it cannot return through the same door.
+                The rite is complete when the silence is real.</p>
+            </div>
+
+            <div class="rite-card reveal">
+                <span class="rite-num">RITE · IV</span>
+                <div class="rite-icon">◎</div>
+                <h3>Warding · Security Hardening</h3>
+                <p>Architecture review. Threat modeling. Protective sigils for your perimeter.
+                We study your defenses for the same vulnerabilities entities look for — before they arrive
+                at your door with an invitation you didn't know you sent.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- METHODOLOGY -->
+    <section class="how-section" id="methodology">
+        <div class="section-header reveal">
+            <h2>PROTOCOL</h2>
+            <p>⟨ FOUR STEPS · NO SHORTCUTS ⟩</p>
+        </div>
+        <div class="how-steps">
+            <div class="how-step reveal">
+                <div class="step-marker">01</div>
+                <div>
+                    <h3>Invocation</h3>
+                    <p>You contact us. We assess scope. Initial triage to determine the nature and severity of the possession — and whether the entity is still active.</p>
                 </div>
-
-                <div class="page-panel service-card">
-                    <span class="service-ritual">Rite II — Demonology</span>
-                    <h3 class="service-title">Malware Analysis</h3>
-                    <p class="service-body">We dissect, classify, and catalog every specimen in an airgapped
-                    containment circle. Static analysis. Dynamic analysis. Behavioral mapping.
-                    Every ghost gets a name, a taxonomy, and a dossier.
-                    The Ars Goetia meets MITRE ATT&amp;CK.</p>
+            </div>
+            <div class="how-step reveal">
+                <div class="step-marker">02</div>
+                <div>
+                    <h3>Isolation</h3>
+                    <p>Affected systems enter the containment circle. Nothing moves in or out until the séance is complete. Memory snapshots, disk images, network captures — preserved before they decay.</p>
                 </div>
-
-                <div class="page-panel service-card">
-                    <span class="service-ritual">Rite III — Exorcism</span>
-                    <h3 class="service-title">Incident Response</h3>
-                    <p class="service-body">Immediate containment. Systematic banishment. Full restoration
-                    of possessed infrastructure. We don't just patch the entry point —
-                    we verify the entity is gone, seal the breach, and ensure
-                    it cannot return through the same door.</p>
+            </div>
+            <div class="how-step reveal">
+                <div class="step-marker">03</div>
+                <div>
+                    <h3>Analysis</h3>
+                    <p>Every artifact examined. Every thread pulled. Reverse-engineered until the binary speaks. Cross-referenced against known entity families — and added to the catalogue if it's new.</p>
                 </div>
-
-                <div class="page-panel service-card">
-                    <span class="service-ritual">Rite IV — Warding</span>
-                    <h3 class="service-title">Security Consultation</h3>
-                    <p class="service-body">Proactive architecture review. Threat modeling. Protective sigils
-                    for your perimeter. We study your defenses for the same
-                    vulnerabilities that demons look for — before they arrive at your door
-                    with an invitation you didn't know you sent.</p>
+            </div>
+            <div class="how-step reveal">
+                <div class="step-marker">04</div>
+                <div>
+                    <h3>Banishment</h3>
+                    <p>The entity is removed. Every persistence mechanism severed. Every backdoor sealed. The exorcism is complete only when we can prove the silence — not assume it.</p>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Torn edge back to leather -->
-    <div class="torn-edge">
-        <img src="assets/textures/torn-edge.svg" alt="" width="1440" height="40">
-    </div>
-
-    <!-- ── METHODOLOGY ── -->
-    <div class="section" id="methodology">
-        <span class="section-eyebrow">// Protocol</span>
-        <h2 class="section-title">How We Work</h2>
-        <div class="method-grid">
-            <div class="method-cell">
-                <span class="method-num">STEP 01</span>
-                <span class="method-name">Invocation</span>
-                <p class="method-desc">You contact us. We assess scope. Initial triage to determine the nature and severity of the possession.</p>
-            </div>
-            <div class="method-cell">
-                <span class="method-num">STEP 02</span>
-                <span class="method-name">Isolation</span>
-                <p class="method-desc">Affected systems enter the containment circle. Nothing moves in or out until the séance is complete.</p>
-            </div>
-            <div class="method-cell">
-                <span class="method-num">STEP 03</span>
-                <span class="method-name">Analysis</span>
-                <p class="method-desc">Every artifact examined. Every thread pulled. The specimen is classified, documented, and cross-referenced against known entity families.</p>
-            </div>
-            <div class="method-cell">
-                <span class="method-num">STEP 04</span>
-                <span class="method-name">Banishment</span>
-                <p class="method-desc">The entity is removed. Every persistence mechanism severed. Every backdoor sealed. The exorcism is complete when we can prove it.</p>
+    <!-- LAB / TERMINAL -->
+    <section class="lab reveal">
+        <div class="lab-inner">
+            <div class="lab-grid">
+                <div>
+                    <h3>// THE LAB</h3>
+                    <p class="lab-copy"><strong>Airgapped analysis environment.</strong> Dedicated specimen containment,
+                    behavioral sandboxing, cross-reference infrastructure connecting classical
+                    demonological taxonomy with modern threat intelligence frameworks.</p>
+                    <p class="lab-copy">Every specimen gets a ghost number. Every ghost gets a name.
+                    The catalogue grows.</p>
+                </div>
+                <div class="terminal" id="lab-terminal">
+                    <div><span class="term-prompt">[13G] ~ $</span> <span class="term-cmd">status --verbose</span></div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Burnt edge into dark about section -->
-    <div class="burnt-edge">
-        <img src="assets/textures/burnt-edge.svg" alt="" width="1440" height="60">
-    </div>
-
-    <!-- ── ABOUT ── -->
-    <div class="about-section">
-        <span class="section-eyebrow">// The Grimoire</span>
-        <h2 class="section-title" style="max-width:900px; margin: 0 auto 32px;">About the Lab</h2>
-        <div class="about-grid">
-            <div>
-                <p class="about-copy">We built this lab because we got tired of treating infections like IT problems.
-                They aren't. A persistent APT on your network isn't a misconfiguration —
-                it's an entity with intent, with patience, with specific objectives.
-                You don't fix that with a patch. You understand it. Then you cast it out.</p>
-                <p class="about-copy">13Ghosts operates an airgapped analysis environment with dedicated
-                specimen containment, behavioral sandboxing, and cross-reference
-                infrastructure connecting classical demonological taxonomy
-                with modern threat intelligence frameworks.
-                Every specimen we encounter gets a ghost number. Every ghost gets a name.</p>
-            </div>
-            <div class="terminal-block" id="lab-terminal">
-                <div><span class="term-prompt">[13G] ~ $</span> <span class="term-cmd">status --verbose</span></div>
-            </div>
+    <!-- FINAL CTA -->
+    <section class="cta-final">
+        <h2 class="reveal">Every hour the entity is inside,<span>it learns more about you.</span></h2>
+        <p class="cta-sub reveal">⟨ DON'T WAIT · CONTAIN FIRST ⟩</p>
+        <div class="reveal">
+            <a href="portal/" class="btn-primary">▶ REQUEST EXORCISM</a>
         </div>
+    </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-brand">
+        <img src="assets/img/sigil-mark.svg" alt="13Ghosts" width="26" height="26">
+        <a href="https://13ghosts.io">13GHOSTS.IO</a>
     </div>
-
-    <!-- Torn edge back to leather -->
-    <div class="torn-edge">
-        <img src="assets/textures/torn-edge.svg" alt="" width="1440" height="40">
+    <div class="footer-links">
+        <a href="#rites">Rites</a>
+        <a href="#methodology">Protocol</a>
+        <a href="academy/">Academy</a>
+        <a href="portal/">Portal</a>
     </div>
+    <p class="footer-copy">© 2025 13GHOSTS.IO · ALL SPECIMENS CONTAINED · NO MERCY</p>
+</footer>
 
-    <!-- ── CONTACT ── -->
-    <div class="section" id="contact">
-        <span class="section-eyebrow">// Begin the Ritual</span>
-        <h2 class="section-title">Summon Us</h2>
-        <div class="contact-grid">
-            <div>
-                <p class="contact-copy">If you suspect a compromise, don't wait. Every hour the entity
-                is inside your infrastructure, it learns more about you. Contact us immediately
-                and we will begin triage within the hour.</p>
-                <p class="contact-copy">Existing clients access their case files through the
-                <a href="portal/">Client Portal</a>.</p>
-            </div>
-            <div class="page-panel stitched contact-form">
-                <form onsubmit="handleContact(event)">
-                    <div class="form-field">
-                        <label for="contact-name">Designation</label>
-                        <input type="text" id="contact-name" placeholder="your name or organization" required>
-                    </div>
-                    <div class="form-field">
-                        <label for="contact-email">Contact Channel</label>
-                        <input type="email" id="contact-email" placeholder="encrypted email preferred" required>
-                    </div>
-                    <div class="form-field form-field-last">
-                        <label for="contact-msg">Nature of the Possession</label>
-                        <textarea id="contact-msg" rows="4" placeholder="describe what you've observed…" required></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary" style="margin-top:24px; width:100%;">Summon the Lab</button>
-                </form>
-                <p id="contact-status" class="contact-status"></p>
-            </div>
-        </div>
-    </div>
+<!-- ember canvas — red-only drift -->
+<script src="assets/js/embers.js" defer></script>
+<script>
+// lab terminal status print
+document.addEventListener('DOMContentLoaded', function () {
+  var lab = document.getElementById('lab-terminal');
+  if (!lab) return;
+  var rows = [
+    '',
+    'LAB SYSTEMS ............. ● ONLINE',
+    'SPECIMEN VAULT .......... ● SEALED',
+    'CONTAINMENT CIRCLE ...... ● NOMINAL',
+    'ANALYSIS ENGINE ......... ● RUNNING',
+    'AUTH GATEWAY ............ ● CONNECTED',
+    '',
+    '13 ghost classes catalogued.',
+    'No active breaches detected.'
+  ];
+  setTimeout(function () {
+    rows.forEach(function (row, i) {
+      setTimeout(function () {
+        var el = document.createElement('div');
+        el.className = 'term-out' + (row.indexOf('●') >= 0 ? ' ok' : '');
+        el.textContent = row;
+        lab.appendChild(el);
+      }, 220 * i);
+    });
+  }, 600);
+});
 
-    <!-- ── FOOTER ── -->
-    <footer class="site-footer">
-        <a href="./" class="footer-brand">
-            <img src="assets/img/sigil-mark.svg" alt="13Ghosts" width="26" height="26">
-            <span class="footer-brand-name">13Ghosts.io</span>
-        </a>
-        <span class="footer-text">Part of the Lempyrλ Ecosystem &nbsp;·&nbsp; All specimens contained</span>
-        <div class="footer-links">
-            <a href="https://lempyra.com">Lempyrλ</a>
-            <a href="portal/">Lab Access</a>
-        </div>
-    </footer>
-
-    <script src="assets/js/terminal.js"></script>
-    <script>
-        // Hero terminal line (typed after tagline finishes)
-        document.addEventListener('DOMContentLoaded', function () {
-            var termEl = document.getElementById('hero-terminal');
-            setTimeout(function () {
-                typeText(termEl, '[13G] ~ $ init consultation --secure', 48);
-            }, 2600);
-
-            // Lab status terminal
-            var lab = document.getElementById('lab-terminal');
-            var rows = [
-                '',
-                'LAB SYSTEMS ............. \u25CF ONLINE',
-                'SPECIMEN VAULT .......... \u25CF SEALED',
-                'CONTAINMENT CIRCLE ...... \u25CF NOMINAL',
-                'ANALYSIS ENGINE ......... \u25CF RUNNING',
-                'AUTH GATEWAY ............ \u25CF CONNECTED',
-                '',
-                '13 ghost classes catalogued.',
-                'No active breaches detected.',
-            ];
-            setTimeout(function () {
-                rows.forEach(function (row, i) {
-                    setTimeout(function () {
-                        var el = document.createElement('div');
-                        el.className = 'term-out';
-                        el.textContent = row;
-                        lab.appendChild(el);
-                    }, 280 * i);
-                });
-            }, 1200);
-        });
-
-        // Contact form stub
-        function handleContact(e) {
-            e.preventDefault();
-            var status = document.getElementById('contact-status');
-            status.textContent = '\u29d7 transmitting to the lab\u2026';
-            setTimeout(function () {
-                status.textContent = '\u2713 received \u2014 we will contact you within 24 hours.';
-                e.target.reset();
-            }, 1200);
-        }
-    </script>
-
+// reveal on scroll
+var io = new IntersectionObserver(function(ents){
+  ents.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold:0.12});
+document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+</script>
 </body>
 </html>
