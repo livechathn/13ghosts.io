@@ -318,6 +318,12 @@
     .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease}
     .reveal.in{opacity:1;transform:translateY(0)}
 
+    /* ─ skip rendering for offscreen long sections ─ */
+    .manifesto,.rites,.how-section,.lab,.cta-final{
+      content-visibility:auto;
+      contain-intrinsic-size:1px 800px;
+    }
+
     @media(max-width:760px){
       .header{padding:14px 18px;gap:14px}
       .header-nav{gap:4px}
