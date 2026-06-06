@@ -67,8 +67,7 @@
         var fl = b.a * (0.6 + 0.4 * Math.sin(t * 2 + b.ph));
         x.beginPath(); x.arc(b.x, b.y, b.r, 0, 6.2832);
         x.fillStyle = 'rgba(' + col[0] + ',' + col[1] + ',' + col[2] + ',' + fl + ')';
-        x.shadowBlur = 8 * DPR; x.shadowColor = 'rgba(' + col[0] + ',' + col[1] + ',' + col[2] + ',.7)';
-        x.fill(); x.shadowBlur = 0;
+        x.fill();
       }
       requestAnimationFrame(frame);
     }
