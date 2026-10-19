@@ -42,7 +42,7 @@
 
         <ul class="sidebar-nav">
             <li>
-                <a href="#overview" class="active" onclick="setActive(this)">
+                <a href="../observatory/">OUIJA / Observatorio ↗</a><a href="#overview" class="active" onclick="setActive(this)">
                     <span>⬡</span> Overview
                 </a>
             </li>
@@ -341,15 +341,13 @@
         }
     }
 
-    function endSession() {
-        sessionStorage.removeItem('ghosts_token');
-        sessionStorage.removeItem('ghosts_refresh');
-        sessionStorage.removeItem('ghosts_user');
-        window.location.replace('../portal/');
+    async function endSession() {
+        try { await SiteSession.client(ObservatoryConfig).request('/auth/logout', {}); window.location.replace('../portal/'); }
+        catch (_) { alert('No se confirmó el cierre de sesión. Reintenta cuando el gateway esté disponible.'); }
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-        var user = sessionStorage.getItem('ghosts_user') || 'operator';
+        var user = 'Sesión activa';
         document.getElementById('session-user').textContent = user;
 
         var now = new Date();

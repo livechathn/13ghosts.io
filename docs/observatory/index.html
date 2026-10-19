@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="dark light">
+  <title>OUIJA — Observatorio</title>
+  <link rel="stylesheet" href="../assets/observatory-v03/observatory.css"><script defer src="../assets/observatory-v03/site-config.js"></script><script defer src="../assets/observatory-v03/observatory.js"></script>
+<link rel="icon" href="../assets/favicon.svg"><link rel="stylesheet" href="../assets/observatory-v03/gate.css"><script defer src="../assets/observatory-v03/session.js"></script><script defer src="../assets/observatory-v03/gate.js"></script></head>
+<body data-world="ouija" data-view="cloud" data-mode="private">
+<section class="session-gate" id="session-gate"><span class="eyebrow">OUIJA / ACCESO</span><h1>El observatorio<br>te espera.</h1><p id="session-status" role="status">Verificando tu sesión…</p><div class="gate-actions"><a id="session-login" href="../portal/">Entrar con OTP ↗</a><button id="session-retry" type="button">Reintentar</button><a href="demo/">Ver demo</a></div><p><a href="../">Volver al sitio</a></p><noscript>Activa JavaScript para verificar tu sesión. No hay datos privados incluidos en este archivo.</noscript></section><div class="app" id="observer-shell" hidden>
+  <header class="masthead">
+    <a class="wordmark" href="../" aria-label="MANIAC inicio"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3 36 32H4Z M20 15 28 29H12Z"/><circle cx="20" cy="23" r="3"/></svg><span id="wordmark">LEMPYRΛ</span></a>
+    <nav class="world-switch" aria-label="Navegación"><a href="../">INICIO ↗</a><a href="../portal/">ACCESO</a></nav>
+    <button class="demo-badge" id="about-button"><span class="tiny-dot"></span>ESTADO DEL ACCESO <span>↗</span></button>
+  </header>
+
+  <div class="system-line"><span id="system-id">M / 01 · INFRASTRUCTURE OBSERVATORY</span><span class="sample-note" id="session-label">SESIÓN VERIFICADA · SIN FUENTE DE DATOS</span><span id="local-clock" aria-label="Hora local"></span></div>
+
+  <main>
+    <section class="chamber" aria-label="Dashboard de infraestructura">
+      <canvas id="universe" aria-hidden="true"></canvas>
+      <div class="chamber-heading"><span class="eyebrow" id="chapter">YOUR SYSTEMS, IN ORBIT.</span><h1 id="scene-title">Todo tiene<br>una órbita.</h1><p id="scene-copy">Seis ciudades. Una presencia.<br>Tu mundo, al alcance de la mano.</p></div>
+
+      <div class="health-readout"><div class="eyebrow">SALUD DEL SISTEMA / DEMO</div><div class="health-number"><span>08</span><em>/09</em></div><div class="health-caption"><span class="status-dot"></span>servicios disponibles</div><button class="text-button" id="alert-button">01 requiere atención <span>↗</span></button></div>
+
+      <div class="entity-zone" id="entity-zone"><button class="entity-hit" id="entity-button" aria-label="Abrir respuesta de la entidad"></button><div class="entity-caption"><span class="entity-state" id="entity-state">PRESENCIA ESTABLE</span><span class="entity-coordinate" id="entity-coordinate">λ / CORE 01</span></div></div>
+
+      <div class="cloud-nodes" id="cloud-nodes" aria-label="Ciudades, datos de muestra"></div>
+
+      <aside class="signal-rail" aria-label="Servicios de muestra"><div class="rail-title"><span class="eyebrow">SEÑALES</span><span>05 / 09</span></div><div id="service-list"></div><button class="text-button projection-button" id="projection-button">Abrir proyección <span>↗</span></button></aside>
+
+      <div class="machine-view" id="machine-view" hidden></div>
+      <div class="database-view" id="database-view" hidden><div class="view-heading"><div><span class="eyebrow">LA MEMORIA / 16 BASES</span><h2>Todo deja una huella.</h2></div><span class="view-note">IDENTIDAD POR COLOR<br>ESTADO EN EL ANILLO</span></div><div class="database-orbits" id="database-orbits"></div><div class="db-legend"><span><i style="--key:#b395e8"></i>Personas</span><span><i style="--key:#55bed7"></i>Biblioteca</span><span><i style="--key:#9cabbc"></i>Operaciones</span><span><i style="--key:#dc79a8"></i>Legal</span><span><i style="--key:#63bdab"></i>Staff</span></div></div>
+
+      <div class="detail-portal" id="detail-portal" role="dialog" aria-modal="true" aria-labelledby="portal-title" hidden><div class="portal-top"><span class="eyebrow" id="portal-kicker">SEÑAL RECIBIDA</span><button class="close-button" id="close-portal" aria-label="Cerrar detalle">×</button></div><h2 id="portal-title"></h2><div id="portal-content"></div><div class="portal-foot">MUESTRA FIJA · SIN CONEXIÓN A TUS EQUIPOS</div></div>
+
+      <div class="pending-source"><strong>Fuente privada pendiente.</strong><br>sar1a verifica tu sesión; no publica los datos de tu casa.<br>Tu conexión VPN se configurará por separado. <a href="demo/">Explorar la demo visual ↗</a></div><div class="chamber-bottom"><span id="chamber-signature">LEMPYRΛ / RESEARCH & DEVELOPMENT</span><button id="motion-button" aria-pressed="false">Ⅱ Pausar movimiento</button><span class="hint">TOCA UNA ÓRBITA PARA EXPLORAR</span></div>
+    </section>
+
+    <section class="console" aria-label="Controles del observatorio"><a href="../">Volver al sitio ↗</a><button id="session-exit" type="button">Cerrar sesión</button>
+      <nav class="view-switch" aria-label="Vista de datos"><button data-view="cloud" aria-pressed="true"><span>01</span>NUBE <small>Mapa de servicios</small></button><button data-view="home" aria-pressed="false"><span>02</span>CASA <small>Recursos y negocio</small></button><button data-view="databases" aria-pressed="false"><span>03</span>BASES <small>Memoria y capacidad</small></button></nav>
+      <form id="command-form" class="command"><label for="command-input" class="sr-only">Pregunta de demostración</label><span class="command-prefix">λ</span><input id="command-input" placeholder="Pregúntale por tu mundo…" autocomplete="off" maxlength="240"><button type="submit" aria-label="Enviar pregunta de demostración">↗</button></form>
+    </section>
+
+    <section class="bottom-strip" aria-label="Resumen de muestra"><button id="fleet-button"><span class="strip-label">FLOTA</span><strong>18<span>/18</span></strong><span class="strip-detail">disponibles · demo</span><span class="strip-arrow">↗</span></button><button id="gpu-button"><span class="strip-label">GPU / MANIAC</span><strong>38<span>%</span></strong><svg viewBox="0 0 130 28" class="mini-curve" aria-label="Curva de uso ilustrativa"><path d="M0 23 7 21 14 24 21 18 28 20 35 12 42 18 49 9 56 13 63 7 70 14 77 8 84 12 91 3 98 11 105 6 112 12 119 9 130 10"/></svg><span class="strip-arrow">↗</span></button><button id="disk-button"><span class="strip-label">CAPACIDAD</span><strong>72<span>%</span></strong><span class="strip-detail">volumen de muestra</span><span class="strip-arrow">↗</span></button><div class="access-strip"><span class="access-mark">◇</span><span>ESTÁS EN UNA SIMULACIÓN<br><small>Tu infraestructura sigue privada.</small></span></div></section>
+  </main>
+  <footer><span id="site-name">lempyra.com</span><span>OUIJA / OBSERVATORIO</span><span>MADE IN HONDURAS · LEMPYRΛ</span></footer>
+</div>
+<div class="toast sr-only" id="announcement" role="status" aria-live="polite"></div>
+</body></html>
