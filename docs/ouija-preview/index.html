@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Ouija — 13Ghosts · Prueba visual</title>
+  <link rel="stylesheet" href="CODEX-ouija.css">
+  <script src="CODEX-ouija.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#message">Ir a la conversación</a>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="13Ghosts, inicio de la prueba"><span class="brand-mark" aria-hidden="true">ⅩⅢ</span><span>13GHOSTS<span class="brand-sub">MALWARE × DEMONOLOGY LAB</span></span></a>
+    <div class="top-links"><span class="origin">CONSTRUIDO EN HONDURAS</span><button class="text-button" data-dialog="rules">For AI / Bots / DAEs <span aria-hidden="true">↗</span></button><span class="preview-badge">VISUAL STUDY 01</span></div>
+  </header>
+  <main class="workbench">
+    <aside class="rail" aria-label="Canales de investigación">
+      <div class="rail-top"><span class="overline">THE OTHER SIDE</span><button id="new-session" class="new-session">Nueva sesión <span aria-hidden="true">＋</span></button></div>
+      <p class="rail-label">ELEGÍ UN CANAL</p>
+      <nav class="channels" aria-label="Modo de Ouija">
+        <button class="channel selected" data-mode="occult" aria-pressed="true"><span class="channel-glyph" aria-hidden="true">☾</span><span>Ocultismo<small>Símbolos · historia · arquetipos</small></span><span class="channel-arrow" aria-hidden="true">↗</span></button>
+        <button class="channel" data-mode="redteam" aria-pressed="false"><span class="channel-glyph" aria-hidden="true">⌖</span><span>Red team<small>Hipótesis · alcance · evidencia</small></span><span class="channel-arrow" aria-hidden="true">↗</span></button>
+        <button class="channel" data-mode="research" aria-pressed="false"><span class="channel-glyph" aria-hidden="true">⌘</span><span>Investigación<small>Leer · conectar · cuestionar</small></span><span class="channel-arrow" aria-hidden="true">↗</span></button>
+      </nav>
+      <div class="rail-note"><span class="overline">UN LAB. VARIAS PUERTAS.</span><p>El símbolo abre una pregunta.<br>La evidencia decide la respuesta.</p></div>
+      <div class="rail-bottom"><button class="text-button" data-dialog="system">Qué está conectado <span aria-hidden="true">↗</span></button><div class="lineage"><span class="lambda">λ</span><span>DAE technology by<br><strong>Lempyrλ</strong></span></div></div>
+    </aside>
+    <section class="chamber" aria-labelledby="ouija-title">
+      <div class="chamber-bar"><span><span class="status-dot" aria-hidden="true"></span> OUIJA / <span id="channel-name">OCCULT STUDIES</span></span><button class="text-button" data-dialog="system">PREVIEW · SIN MODELO <span aria-hidden="true">ⓘ</span></button></div>
+      <div class="conversation-scroll" id="conversation-scroll">
+        <div class="welcome" id="welcome">
+          <div class="sigil" aria-hidden="true"><svg viewBox="0 0 180 180"><circle cx="90" cy="90" r="74"/><circle cx="90" cy="90" r="59"/><path d="M90 8v24m0 116v24M8 90h24m116 0h24M38 38l17 17m70 70 17 17M38 142l17-17m70-70 17-17M90 36l47 81H43zM90 140 43 59h94z"/><circle cx="90" cy="90" r="15"/><path d="M90 72v36m-18-18h36"/></svg></div>
+          <div class="overline invocation">NO TODA PREGUNTA BUSCA LA LUZ.</div>
+          <h1 id="ouija-title">Ouija<span>.</span></h1>
+          <p class="welcome-copy" id="welcome-copy">Abrí una conversación con el otro lado.<br>Ocultismo, símbolos y preguntas incómodas.</p>
+          <div class="prompt-list" id="prompt-list" aria-label="Preguntas para empezar"></div>
+          <p class="preview-explanation">Prueba de interfaz. Tus mensajes quedan en esta pestaña;<br>no se envían ni reciben respuestas de un modelo.</p>
+        </div>
+        <div class="messages" id="messages" role="log" aria-live="polite" aria-label="Borrador de conversación"></div>
+      </div>
+      <div class="composer-area">
+        <form id="composer" class="composer">
+          <label for="message" class="sr-only">Tu mensaje para Ouija</label>
+          <textarea id="message" rows="2" maxlength="4000" placeholder="¿Qué querés invocar?" aria-describedby="composer-hint"></textarea>
+          <div class="composer-controls"><span class="composer-mode"><span aria-hidden="true">◇</span> <span id="composer-mode">Ocultismo</span></span><span class="character-count" id="character-count">0 / 4000</span><button class="send" type="submit" aria-label="Añadir mensaje a la prueba" disabled><span aria-hidden="true">↑</span></button></div>
+        </form>
+        <p class="composer-hint" id="composer-hint">ENTER PARA AÑADIR AL BORRADOR · SHIFT + ENTER PARA OTRA LÍNEA</p>
+        <p id="session-status" class="sr-only" role="status"></p>
+      </div>
+    </section>
+    <aside class="art-panel" aria-label="Arte original del laboratorio 13Ghosts">
+      <img src="CODEX-lab.jpeg" alt="Laboratorio oscuro iluminado en rojo: un operador frente a pantallas, cables y un cráneo digital al fondo.">
+      <div class="art-top"><span>FIELD NOTES / 013</span><span aria-hidden="true">＋</span></div>
+      <div class="art-caption"><span class="overline">THE LAB IS REAL.</span><h2>The ghosts<br>are ours.</h2><p>Infraestructura propia.<br>Imaginación sin domesticar.</p><div class="art-rule"></div><span class="art-credit">13GHOSTS · HONDURAS<br>ARTE DEL ARCHIVO ORIGINAL</span></div>
+    </aside>
+  </main>
+  <footer class="footer"><span>13GHOSTS.IO <span class="footer-divider">/</span> OUIJA</span><span>Un producto del lab. Tecnología de Lempyrλ.</span><button class="text-button" data-dialog="system">AUTH · API · PAYMENTS <span class="pending">PENDIENTES</span></button></footer>
+
+  <dialog id="rules" aria-labelledby="rules-title"><div class="dialog-head"><span class="overline">MACHINE-READABLE INTENT / DRAFT</span><button class="close-dialog" aria-label="Cerrar">×</button></div><h2 id="rules-title">For AI. For bots.<br>For DAEs.</h2><p>Un contrato claro para quienes llegan sin navegador.</p><dl><dt>Capacidades propuestas</dt><dd>Conversación, investigación de símbolos y análisis de seguridad con alcance autorizado.</dd><dt>Lo verificable</dt><dd>Distinguir hechos, hipótesis y ficción; identificar fuentes y límites.</dd><dt>Acceso</dt><dd>OTP para personas; contrato de acceso de agentes por definir. Esta prueba no expone ninguna API.</dd><dt>Datos y acciones</dt><dd>No enviar secretos. Ninguna ejecución sobre sistemas externos sin autorización y alcance explícito.</dd><dt>Pagos y tokens</dt><dd>Diseño futuro. No hay wallet conectada, token emitido ni cobros habilitados.</dd></dl><p class="dialog-footnote">Borrador de producto, no control de seguridad. El backend deberá hacer cumplir permisos y límites.</p></dialog>
+  <dialog id="system" aria-labelledby="system-title"><div class="dialog-head"><span class="overline">ESTADO REAL DE ESTA PRUEBA</span><button class="close-dialog" aria-label="Cerrar">×</button></div><h2 id="system-title">El ritual visual.<br>Antes del cableado.</h2><p>El layout toma como referencia la conversación de Alean y Aria, con el arte original de 13Ghosts.</p><ul><li>Canales y sugerencias: interactivos.</li><li>Mensajes: borrador en memoria de esta pestaña.</li><li>Modelo, memoria remota y herramientas: no conectados.</li><li>OTP: pendiente de adaptar el contrato vigente de Lempyrλ.</li><li>Wallet, pagos y tokens: en espera.</li></ul><p class="dialog-footnote">No hay telemetría simulada ni respuestas de IA pregrabadas. Cerrar o recargar borra el borrador.</p></dialog>
+</body>
+</html>
