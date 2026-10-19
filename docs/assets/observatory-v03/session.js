@@ -7,7 +7,7 @@
     '13ghosts.io':'https://sar1a.13ghosts.io','www.13ghosts.io':'https://sar1a.13ghosts.io'
   });
   function resolve(host){if(!Object.hasOwn(API,host))throw Object.assign(Error('Abre este acceso desde el dominio del sitio. La vista local no inicia sesiones.'),{code:'unsupported_host'});return API[host];}
-  function allowed(data){return data?.member===true||Array.isArray(data?.roles)&&data.roles.some(r=>r==='owner'||r==='admin'||typeof r==='string'&&r.startsWith('client:'));}
+  function allowed(data){if(globalThis.ObservatoryConfig?.ownerOnly===true)return Array.isArray(data?.roles)&&data.roles.includes("owner");return data?.member===true||Array.isArray(data?.roles)&&data.roles.some(r=>r==='owner'||r==='admin'||typeof r==='string'&&r.startsWith('client:'));}
   function safeNext(value,root,fallback){try{const site=new URL(root),url=new URL(value||fallback,site);if(url.origin!==site.origin||!url.pathname.startsWith(site.pathname)||url.username||url.password||url.search||url.hash)return new URL(fallback,site).href;const relative=url.pathname.slice(site.pathname.length);if(/^(?:login|portal)(?:\/|$)/.test(relative)||relative.includes('\\'))return new URL(fallback,site).href;return url.href;}catch{return new URL(fallback,root).href;}}
   function message(error){
     if(error.code==='invalid_credentials')return 'Nombre o contraseña incorrectos.';

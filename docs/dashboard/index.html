@@ -3,18 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>13Ghosts — Lab Dashboard</title>
+    <title>Casos públicos · 13Ghosts</title>
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/grimoire.css">
 
     <!-- Auth guard runs first, before any content renders -->
-    <script src="../assets/js/auth-guard.js"></script>
-
-<style>
+    <style>
   /* Fix grid + fixed-sidebar double-indent */
   .app-layout { display: block; }
   .main-content {
@@ -28,7 +23,7 @@
   .content-section { display: none; }
   .content-section.active-pane { display: block; }
 </style>
-</head>
+<link rel="stylesheet" href="../assets/presence-v2/presence.css?v=1"><link rel="stylesheet" href="../assets/presence-v2/public.css?v=1"></head>
 <body>
 
 <div class="app-layout page-content">
@@ -73,12 +68,7 @@
             </li>
         </ul>
 
-        <div class="sidebar-footer">
-            <span id="session-user" style="display:block; margin-bottom:6px; color:var(--chalk-dim);"></span>
-            <a href="#" onclick="endSession()" style="color:var(--blood-red); font-size:0.6rem; letter-spacing:0.1em;">
-                ✗ Close Portal
-            </a>
-        </div>
+        <div class="sidebar-footer"><a href="../academy/">ACADEMIA ABIERTA ↗</a><br><a href="../portal/">ACCESO PERSONAL ↗</a></div>
     </aside>
 
     <!-- Main -->
@@ -86,13 +76,13 @@
 
         <div class="main-content-header">
             <div>
-                <h1 style="font-size:1.4rem; margin-bottom:4px;">Lab Dashboard</h1>
+                <h1 style="font-size:1.4rem; margin-bottom:4px;">Archivo de casos</h1>
                 <span class="label-small" id="dashboard-date"></span>
             </div>
-            <span class="label-small" style="color:var(--blood-red);">⬡ CONTAINMENT NOMINAL</span>
+            <span class="label-small" style="color:var(--blood-red);">13G / PUBLIC RESEARCH</span>
         </div>
 
-        <!-- Status Overview -->
+        <p class="case-note"><strong>ARCHIVO ILUSTRATIVO.</strong> Estos casos son ejemplos narrativos de investigación; los estados y fechas pertenecen a la muestra. No representan incidentes reales de clientes ni telemetría en vivo.</p><!-- Status Overview -->
         <div class="content-section" id="overview">
             <h2 class="content-section-title">Status Overview</h2>
             <div class="status-strip">
@@ -341,18 +331,10 @@
         }
     }
 
-    async function endSession() {
-        try { await SiteSession.client(ObservatoryConfig).request('/auth/logout', {}); window.location.replace('../portal/'); }
-        catch (_) { alert('No se confirmó el cierre de sesión. Reintenta cuando el gateway esté disponible.'); }
-    }
 
     document.addEventListener('DOMContentLoaded', function () {
-        var user = 'Sesión activa';
-        document.getElementById('session-user').textContent = user;
 
-        var now = new Date();
-        document.getElementById('dashboard-date').textContent =
-            now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById('dashboard-date').textContent = 'PUBLIC ARCHIVE / ILLUSTRATIVE CASE FILE';
 
         // Show overview pane on load
         showPane('overview');
