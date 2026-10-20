@@ -33,7 +33,7 @@
 
   // Caracteres ASCII esotéricos y técnicos
   const chars = '01{}<>[]/\\+=*#%@:.-†‡§ΔΞ';
-  const cell = 36;
+  const cell = 72;
   const cols = 16;
   const atlas = document.createElement('canvas');
   atlas.width = cols * cell;
@@ -44,7 +44,7 @@
 
   const buildAtlas = () => {
     ink.clearRect(0, 0, atlas.width, atlas.height);
-    ink.font = '600 24px PresenceMono, "Orbitron", monospace';
+    ink.font = '600 48px PresenceMono, "Orbitron", monospace';
     ink.textAlign = 'center';
     ink.textBaseline = 'middle';
     colors.forEach((color, c) => {
@@ -121,7 +121,7 @@
       theta,
       phi: pPhi,
       glyph: (idx * 5 + faceIdx * 3) % chars.length,
-      phase: idx * 0.41,
+      phase: theta * 3 + pPhi * 4, // Spatial wave, not node-index noise
       color: (idx % 7 === 0) ? 3 : (idx % 3 === 0) ? 2 : (idx % 2 === 0) ? 1 : 0
     });
     return idx;
@@ -261,13 +261,13 @@
       const avgFront = (p1.front + p2.front) / 2;
 
       // Destello que viaja por las aristas
-      const flare = Math.sin((p1.x + p2.y) * 0.02 + t * 2.0);
+      const flare = Math.sin(((p1.x + p2.y) / size) * 12 + t * 1.2);
       const isFlare = flare > 0.88;
 
       ctx.strokeStyle = isFlare ? colors[3] : colors[1];
       ctx.globalAlpha = isFlare
         ? Math.min(0.85, 0.3 + 0.6 * avgFront)
-        : (0.04 + 0.22 * avgFront);
+        : (0.08 + 0.30 * avgFront);
 
       ctx.beginPath();
       ctx.moveTo(p1.x, p1.y);
@@ -350,7 +350,8 @@
     size = rect.width;
     if (!size) return;
 
-    const dpr = Math.min(devicePixelRatio || 1, 1.5);
+    const requestedDpr = canvas.dataset.captureDpr === "3" ? 3 : 1.5;
+    const dpr = Math.min(devicePixelRatio || 1, requestedDpr, Math.sqrt(9000000 / (size * size)));
     canvas.width = Math.floor(size * dpr);
     canvas.height = Math.floor(size * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
