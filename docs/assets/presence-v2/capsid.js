@@ -86,6 +86,7 @@
   // En cada cara triangular, subdividimos en una celosía hexagonal/triangular
   const points = [];
   const edges = [];
+  const triangles = [];
   const edgeSet = new Set();
 
   const addEdge = (p1, p2) => {
@@ -149,6 +150,14 @@
       }
     }
 
+    // Capture the base faces so refinement can be spread evenly over the sphere.
+    for (let i = 0; i < N; i++) {
+      for (let j = 0; j < N - i; j++) {
+        triangles.push([grid[i][j], grid[i + 1][j], grid[i][j + 1]]);
+        if (j < N - i - 1) triangles.push([grid[i + 1][j], grid[i + 1][j + 1], grid[i][j + 1]]);
+      }
+    }
+
     // Aristas hexagonales/triangulares
     for (let i = 0; i <= N; i++) {
       for (let j = 0; j <= N - i; j++) {
@@ -159,6 +168,22 @@
       }
     }
   });
+
+  // Add one centroid per selected face. Each adds one glyph and three links.
+  // The N=5 sphere has 252 nodes / 750 links: +63 / +189 = +25% / +25.2%.
+  const extraNodes = Math.round(points.length * 0.25);
+  for (let k = 0; k < extraNodes; k++) {
+    const faceIndex = Math.floor((k + 0.5) * triangles.length / extraNodes);
+    const face = triangles[faceIndex];
+    const center = [0, 0, 0];
+    for (const index of face) {
+      center[0] += points[index].x;
+      center[1] += points[index].y;
+      center[2] += points[index].z;
+    }
+    const index = getOrAddPoint(center, faceIndex);
+    for (const corner of face) addEdge(index, corner);
+  }
 
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   let size = 0;
@@ -276,7 +301,7 @@
 
       // Alpha y tamaño dependientes de profundidad (Z)
       ctx.globalAlpha = 0.12 + 0.84 * Math.pow(front, 1.8);
-      const glyphSize = Math.max(9, Math.round(size * (0.022 + 0.016 * front)));
+      const glyphSize = 0.75 * Math.max(9, Math.round(size * (0.022 + 0.016 * front)));
 
       ctx.drawImage(
         atlas,
