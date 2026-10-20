@@ -7,9 +7,9 @@
   <meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="dark light">
   <title>OUIJA — Observatorio</title>
   <link rel="stylesheet" href="../assets/observatory-v03/observatory.css"><script defer src="../assets/observatory-v03/site-config.js"></script><script defer src="../assets/observatory-v03/observatory.js"></script>
-<link rel="stylesheet" href="../assets/observatory-v03/gate.css"><script defer src="../assets/observatory-v03/session.js"></script><script defer src="../assets/observatory-v03/gate.js"></script></head>
+<link rel="stylesheet" href="../assets/observatory-v03/gate.css"><script defer src="../assets/observatory-v03/session.js"></script><script defer src="../assets/observatory-v03/gate.js"></script><link rel="stylesheet" href="../assets/observatory-v03/finance.css?v=1"><script defer src="../assets/observatory-v03/finance.js?v=1"></script></head>
 <body data-world="ouija" data-view="cloud" data-mode="private">
-<section class="session-gate" id="session-gate"><span class="eyebrow">OUIJA / ACCESO</span><h1>El observatorio<br>te espera.</h1><p id="session-status" role="status">Verificando tu sesión…</p><div class="gate-actions"><a id="session-login" href="../portal/">Entrar con OTP ↗</a><button id="session-retry" type="button">Reintentar</button><a href="demo/">Ver demo</a></div><p><a href="../">Volver al sitio</a></p><noscript>Activa JavaScript para verificar tu sesión. No hay datos privados incluidos en este archivo.</noscript></section><div class="app" id="observer-shell" hidden>
+<section class="session-gate" id="session-gate"><span class="eyebrow">OUIJA / ACCESO</span><h1>El observatorio<br>te espera.</h1><p id="session-status" role="status">Verificando tu sesión…</p><div class="gate-actions"><a id="session-login" href="../portal/">Entrar con OTP ↗</a><button id="session-retry" type="button">Reintentar</button><a href="../">Volver al sitio público</a></div><p><a href="../">Volver al sitio</a></p><noscript>Activa JavaScript para verificar tu sesión. No hay datos privados incluidos en este archivo.</noscript></section><div class="app" id="observer-shell" hidden>
   <header class="masthead">
     <a class="wordmark" href="../" aria-label="MANIAC inicio"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3 36 32H4Z M20 15 28 29H12Z"/><circle cx="20" cy="23" r="3"/></svg><span id="wordmark">LEMPYRΛ</span></a>
     <nav class="world-switch" aria-label="Navegación"><a href="../">INICIO ↗</a><a href="../portal/">ACCESO</a></nav>
@@ -18,7 +18,10 @@
 
   <div class="system-line"><span id="system-id">M / 01 · INFRASTRUCTURE OBSERVATORY</span><span class="sample-note" id="session-label">SESIÓN VERIFICADA · SIN FUENTE DE DATOS</span><span id="local-clock" aria-label="Hora local"></span></div>
 
+  <nav class="workspace-tabs" role="tablist" aria-label="Espacio de trabajo"><button id="overview-tab" type="button" role="tab" aria-controls="system-dashboard" aria-selected="true">Observatorio</button><button id="finance-tab" type="button" role="tab" aria-controls="finance-panel" aria-selected="false" hidden>Finanzas</button></nav>
   <main>
+<section class="finance-panel" id="finance-panel" role="tabpanel" aria-labelledby="finance-tab" hidden><span class="eyebrow">PLAN COMERCIAL / ACCESO PERSONAL</span><h1>Finanzas.</h1><p>Precios, presupuestos y contribución de sus implementaciones. Los datos internos se solicitan al servidor autorizado; no se publican dentro de este sitio.</p><p id="finance-status" role="status">Fuente financiera privada pendiente.</p><button id="finance-reload" type="button">Actualizar fuente</button><div class="finance-table-scroll"><table><thead><tr><th scope="col">Producto</th><th scope="col">Implementación</th><th scope="col">Mensualidad</th><th scope="col">Coste / mes</th><th scope="col">Contribución / mes</th><th scope="col">Margen</th></tr></thead><tbody id="finance-body"></tbody></table></div><p class="finance-scope">USD. Precios desde. La contribución no es utilidad neta. Costes no definidos aparecen como «Sin dato». La proyección editable está en la hoja financiera privada, no publicada en Pages.</p></section>
+<div id="system-dashboard" role="tabpanel" aria-labelledby="overview-tab">
     <section class="chamber" aria-label="Dashboard de infraestructura">
       <canvas id="universe" aria-hidden="true"></canvas>
       <div class="chamber-heading"><span class="eyebrow" id="chapter">YOUR SYSTEMS, IN ORBIT.</span><h1 id="scene-title">Todo tiene<br>una órbita.</h1><p id="scene-copy">Seis ciudades. Una presencia.<br>Tu mundo, al alcance de la mano.</p></div>
@@ -36,7 +39,7 @@
 
       <div class="detail-portal" id="detail-portal" role="dialog" aria-modal="true" aria-labelledby="portal-title" hidden><div class="portal-top"><span class="eyebrow" id="portal-kicker">SEÑAL RECIBIDA</span><button class="close-button" id="close-portal" aria-label="Cerrar detalle">×</button></div><h2 id="portal-title"></h2><div id="portal-content"></div><div class="portal-foot">MUESTRA FIJA · SIN CONEXIÓN A TUS EQUIPOS</div></div>
 
-      <div class="pending-source"><strong>Fuente privada pendiente.</strong><br>sar1a verifica tu sesión; no publica los datos de tu casa.<br>Tu conexión VPN se configurará por separado. <a href="demo/">Explorar la demo visual ↗</a></div><div class="chamber-bottom"><span id="chamber-signature">LEMPYRΛ / RESEARCH & DEVELOPMENT</span><button id="motion-button" aria-pressed="false">Ⅱ Pausar movimiento</button><span class="hint">TOCA UNA ÓRBITA PARA EXPLORAR</span></div>
+      <div class="pending-source"><strong>Fuente privada pendiente.</strong><br>sar1a verifica tu sesión; no publica los datos de tu casa.<br>Tu conexión VPN se configurará por separado. <a href="../academy/">Abrir Academy privada ↗</a></div><div class="chamber-bottom"><span id="chamber-signature">LEMPYRΛ / RESEARCH & DEVELOPMENT</span><button id="motion-button" aria-pressed="false">Ⅱ Pausar movimiento</button><span class="hint">TOCA UNA ÓRBITA PARA EXPLORAR</span></div>
     </section>
 
     <section class="console" aria-label="Controles del observatorio"><a href="../">Volver al sitio ↗</a><button id="session-exit" type="button">Cerrar sesión</button>
@@ -45,6 +48,7 @@
     </section>
 
     <section class="bottom-strip" aria-label="Resumen de muestra"><button id="fleet-button"><span class="strip-label">FLOTA</span><strong>18<span>/18</span></strong><span class="strip-detail">disponibles · demo</span><span class="strip-arrow">↗</span></button><button id="gpu-button"><span class="strip-label">GPU / MANIAC</span><strong>38<span>%</span></strong><svg viewBox="0 0 130 28" class="mini-curve" aria-label="Curva de uso ilustrativa"><path d="M0 23 7 21 14 24 21 18 28 20 35 12 42 18 49 9 56 13 63 7 70 14 77 8 84 12 91 3 98 11 105 6 112 12 119 9 130 10"/></svg><span class="strip-arrow">↗</span></button><button id="disk-button"><span class="strip-label">CAPACIDAD</span><strong>72<span>%</span></strong><span class="strip-detail">volumen de muestra</span><span class="strip-arrow">↗</span></button><div class="access-strip"><span class="access-mark">◇</span><span>ESTÁS EN UNA SIMULACIÓN<br><small>Tu infraestructura sigue privada.</small></span></div></section>
+</div>
   </main>
   <footer><span id="site-name">lempyra.com</span><span>OUIJA / OBSERVATORIO</span><span>MADE IN HONDURAS · LEMPYRΛ</span></footer>
 </div>

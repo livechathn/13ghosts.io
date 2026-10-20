@@ -6,10 +6,10 @@
   const login=new URL(config.login,config.root);login.searchParams.set('next','observatory/');document.getElementById('session-login').href=login.href;
   let busy=false;
   async function check(){
-    if(busy)return;busy=true;shell.hidden=true;gate.hidden=false;status.textContent='Verificando tu sesión…';
+    if(busy)return;document.dispatchEvent(new CustomEvent('observatory-session',{detail:{verified:false,owner:false}}));busy=true;shell.hidden=true;gate.hidden=false;status.textContent='Verificando tu sesión…';
     try{
       const session=await api.request('/entitlements');if(!SiteSession.allowed(session))throw Object.assign(Error('Sin acceso habilitado.'),{status:403});
-      gate.hidden=true;shell.hidden=false;
+      gate.hidden=true;shell.hidden=false;document.dispatchEvent(new CustomEvent('observatory-session',{detail:{verified:true,owner:Array.isArray(session.roles)&&session.roles.includes('owner')}}));
       document.getElementById('session-label').textContent='SESIÓN VERIFICADA · FUENTE PRIVADA PENDIENTE';
     }catch(error){status.textContent=SiteSession.message(error);}
     finally{busy=false;}
