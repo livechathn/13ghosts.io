@@ -45,9 +45,9 @@ async function handleLogin(event) {
     var panelEl  = document.getElementById('login-panel');
 
     btn.disabled    = true;
-    btn.textContent = 'Binding…';
+    btn.textContent = 'Signing in…';
     statusEl.style.color = 'var(--chalk-dim)';
-    statusEl.textContent = '⟳ invoking authorization rite…';
+    statusEl.textContent = '⟳ verifying authorization…';
 
     try {
         // Step 1: POST /auth/authorize → authorization code
@@ -65,7 +65,7 @@ async function handleLogin(event) {
         var authData = await authRes.json();
         if (!authRes.ok) {
             if (authRes.status === 401 || authRes.status === 403) {
-                throw new Error('entity not recognized — access sealed');
+                throw new Error('identity not recognized — access denied');
             }
             throw new Error(authData.detail || authData.error || 'authorization failed');
         }
@@ -73,7 +73,7 @@ async function handleLogin(event) {
         var code = authData.authorization_code || authData.code;
         if (!code) throw new Error('no authorization code received');
 
-        statusEl.textContent = '⟳ seal accepted — exchanging token…';
+        statusEl.textContent = '⟳ authorization accepted — exchanging token…';
 
         // Step 2: POST /auth/token → JWT
         var tokRes = await fetch(AUTH.url + '/auth/token', {
@@ -100,9 +100,9 @@ async function handleLogin(event) {
         if (tokData.refresh_token) sessionStorage.setItem(AUTH.refreshKey, tokData.refresh_token);
         sessionStorage.setItem(AUTH.userKey, username);
 
-        btn.textContent = '✓ Seal Broken — Entering';
+        btn.textContent = '✓ Verified — Entering';
         statusEl.style.color = 'var(--bone)';
-        statusEl.textContent = '✓ portal unsealed — entering lab…';
+        statusEl.textContent = '✓ session verified — entering lab…';
 
         window.location.replace('../dashboard/');
 
@@ -114,8 +114,8 @@ async function handleLogin(event) {
             setTimeout(function() { panelEl.classList.remove('shake'); }, 500);
         }
         btn.disabled = false;
-        btn.textContent = 'Unseal';
+        btn.textContent = 'Sign in';
         statusEl.style.color = 'var(--blood-glow)';
-        statusEl.textContent = '✗ ' + (e.message || 'ritual failed');
+        statusEl.textContent = '✗ ' + (e.message || 'authorization failed');
     }
 }

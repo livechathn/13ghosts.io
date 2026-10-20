@@ -15,7 +15,7 @@
   function draw(){
    ctx.clearRect(0,0,w,h);const r=Math.min(w*.35,h*.41),cx=w/2,cy=h/2;
    if(kind==='alean'){
-    // A staggered spherical skin with a travelling, snake-like meridian.
+    // A staggered spherical lattice with a travelling, snake-like meridian.
     for(const p of points){const a=p.a+t*.18,z=Math.sin(a)*Math.sin(p.p),wave=1+.035*Math.sin(p.p*6+a*2-t);const x=Math.cos(a)*Math.sin(p.p)*r*wave,y=Math.cos(p.p)*r*1.08;const stripe=.42+.58*Math.pow(.5+.5*Math.cos(a-p.p*2.4+t*.4),4);glyph(cx+x,cy+y,z,p,stripe);}
    }else if(kind==='maniac'){
     // An oblique accretion disk: the centre stays entirely black.
@@ -23,7 +23,7 @@
     ctx.globalAlpha=1;ctx.fillStyle='#000';ctx.beginPath();ctx.arc(cx,cy,r*.28,0,Math.PI*2);ctx.fill();
     ctx.strokeStyle=colors[0];ctx.globalAlpha=.3;ctx.lineWidth=.7;ctx.beginPath();ctx.arc(cx,cy,r*.29,0,Math.PI*2);ctx.stroke();
    }else{
-    // Five upright glyph planes form a room around a slowly turning seal.
+    // Five upright glyph planes form a room around a slowly turning reference plane.
     for(let panel=0;panel<5;panel++){const a=panel*Math.PI*2/5+t*.065;const depth=Math.sin(a),x=cx+Math.cos(a)*r*.87,y=cy+depth*r*.24;ctx.strokeStyle=colors[panel%3];ctx.globalAlpha=.18+.16*(depth+1)/2;ctx.lineWidth=.7;ctx.strokeRect(x-r*.21,y-r*.62,r*.42,r*.77);for(let row=0;row<10;row++)for(let col=0;col<5;col++){const p=points[panel*50+row*5+col];glyph(x-r*.16+col*r*.08,y-r*.54+row*r*.067,depth,p,.55);}}
     const corners=Array.from({length:5},(_,i)=>{const a=i*Math.PI*2/5-Math.PI/2+t*.065;return[cx+Math.cos(a)*r,cy+r*.52+Math.sin(a)*r*.24];});
     ctx.globalAlpha=.6;ctx.strokeStyle=colors[0];ctx.lineWidth=.8;ctx.beginPath();for(let i=0;i<6;i++){const p=corners[(i*2)%5];i?ctx.lineTo(...p):ctx.moveTo(...p);}ctx.stroke();

@@ -34,7 +34,7 @@ function typeText(element, text, speed, callback) {
  * Build a terminal prompt line with typed command + optional output.
  * @param {HTMLElement} container  Where to append
  * @param {string}      promptStr  e.g. '[13G] ~ $'
- * @param {string}      command    e.g. 'scan --deep /dev/possessed'
+ * @param {string}      command    e.g. 'analyse --scope approved-system'
  * @param {string[]}    output     Lines to appear after command
  * @param {number}      speed      Typing speed in ms
  * @param {Function}    callback   Called when all output is done

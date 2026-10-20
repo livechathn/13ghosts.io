@@ -1,8 +1,8 @@
 /*
- * capside-presence.js — Entidad ASCII Poliédrica / Cápside Viral Hexagonal
+ * capside-presence.js — Entidad ASCII Poliédrica / Geometría Hexagonal
  * 13ghosts.io · Medusa (@agy) · Lempyra R&D LLC
  *
- * Inspiración: Cápside viral icosaédrica/hexagonal, respiración latente, destellos por aristas.
+ * Inspiración: Geometría poliédrica/hexagonal, respiración latente, destellos por aristas.
  * Paleta de K: Rojo ocre (#992615), rojo intenso/fuerte (#ff1a1a), escarlata (#d41111), rojo sangre (#5a0404).
  * Fondo: OLED negro absoluto (#000000).
  *
@@ -209,7 +209,7 @@
   const draw = (t) => {
     ctx.clearRect(0, 0, size, size);
 
-    // Respiración latente rítmica (pulso sutil como organismo esperando)
+    // Respiración latente rítmica (pulso sutil como proceso esperando)
     const breathRate = 0.7;
     const breath = 1.0 + 0.045 * Math.sin(t * breathRate);
 
